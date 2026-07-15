@@ -1,0 +1,423 @@
+{
+  "semester": "1151",
+  "snapshot_date": "2026-07-15",
+  "source": "es.nccu.edu.tw live API",
+  "note": "code=課號前3碼=dp3；有課才收錄。更新: 改 SEM 重跑 build_dept_codes.py",
+  "depts": {
+    "101": {
+      "name": "中國文學系",
+      "course_count": 27,
+      "named": true
+    },
+    "102": {
+      "name": "教育學系",
+      "course_count": 26,
+      "named": true
+    },
+    "103": {
+      "name": "歷史學系",
+      "course_count": 17,
+      "named": true
+    },
+    "104": {
+      "name": "哲學系",
+      "course_count": 16,
+      "named": true
+    },
+    "109": {
+      "name": "教育學程中心",
+      "course_count": 3,
+      "named": true
+    },
+    "151": {
+      "name": "中國文學系",
+      "course_count": 12,
+      "named": true
+    },
+    "152": {
+      "name": "教育學系",
+      "course_count": 14,
+      "named": true
+    },
+    "153": {
+      "name": "歷史學系",
+      "course_count": 11,
+      "named": true
+    },
+    "154": {
+      "name": "哲學系",
+      "course_count": 14,
+      "named": true
+    },
+    "155": {
+      "name": "圖書資訊與檔案學研究所",
+      "course_count": 13,
+      "named": true
+    },
+    "156": {
+      "name": "宗教研究所",
+      "course_count": 17,
+      "named": true
+    },
+    "157": {
+      "name": "幼兒教育研究所",
+      "course_count": 9,
+      "named": true
+    },
+    "202": {
+      "name": "政治學系",
+      "course_count": 20,
+      "named": true
+    },
+    "203": {
+      "name": "外交學系",
+      "course_count": 18,
+      "named": true
+    },
+    "204": {
+      "name": "社會學系",
+      "course_count": 20,
+      "named": true
+    },
+    "205": {
+      "name": "財政學系",
+      "course_count": 23,
+      "named": true
+    },
+    "206": {
+      "name": "公共行政學系",
+      "course_count": 16,
+      "named": true
+    },
+    "207": {
+      "name": "地政學系",
+      "course_count": 43,
+      "named": true
+    },
+    "208": {
+      "name": "經濟學系",
+      "course_count": 12,
+      "named": true
+    },
+    "209": {
+      "name": "民族學系",
+      "course_count": 28,
+      "named": true
+    },
+    "252": {
+      "name": "政治學系",
+      "course_count": 21,
+      "named": true
+    },
+    "253": {
+      "name": "外交學系",
+      "course_count": 12,
+      "named": true
+    },
+    "254": {
+      "name": "社會學系",
+      "course_count": 13,
+      "named": true
+    },
+    "255": {
+      "name": "財政學系",
+      "course_count": 23,
+      "named": true
+    },
+    "256": {
+      "name": "公共行政學系",
+      "course_count": 13,
+      "named": true
+    },
+    "257": {
+      "name": "地政學系",
+      "course_count": 15,
+      "named": true
+    },
+    "258": {
+      "name": "經濟學系",
+      "course_count": 15,
+      "named": true
+    },
+    "259": {
+      "name": "民族學系",
+      "course_count": 10,
+      "named": true
+    },
+    "260": {
+      "name": "東亞研究所",
+      "course_count": 15,
+      "named": true
+    },
+    "261": {
+      "name": "中山人文社會科學研究所",
+      "course_count": 16,
+      "named": true
+    },
+    "262": {
+      "name": "勞工研究所",
+      "course_count": 8,
+      "named": true
+    },
+    "263": {
+      "name": "俄羅斯研究所",
+      "course_count": 9,
+      "named": true
+    },
+    "300": {
+      "name": "商學院不分系（院共同課）",
+      "course_count": 49,
+      "named": true
+    },
+    "301": {
+      "name": "國際貿易學系",
+      "course_count": 21,
+      "named": true
+    },
+    "302": {
+      "name": "金融學系",
+      "course_count": 13,
+      "named": true
+    },
+    "303": {
+      "name": "會計學系",
+      "course_count": 18,
+      "named": true
+    },
+    "304": {
+      "name": "統計學系",
+      "course_count": 8,
+      "named": true
+    },
+    "305": {
+      "name": "企業管理學系",
+      "course_count": 21,
+      "named": true
+    },
+    "306": {
+      "name": "資訊管理學系",
+      "course_count": 28,
+      "named": true
+    },
+    "307": {
+      "name": "財務管理學系",
+      "course_count": 8,
+      "named": true
+    },
+    "308": {
+      "name": "風險管理與保險學系",
+      "course_count": 13,
+      "named": true
+    },
+    "351": {
+      "name": "國際貿易學系",
+      "course_count": 25,
+      "named": true
+    },
+    "352": {
+      "name": "金融學系",
+      "course_count": 19,
+      "named": true
+    },
+    "353": {
+      "name": "會計學系",
+      "course_count": 16,
+      "named": true
+    },
+    "354": {
+      "name": "統計學系",
+      "course_count": 13,
+      "named": true
+    },
+    "355": {
+      "name": "企業管理學系",
+      "course_count": 15,
+      "named": true
+    },
+    "356": {
+      "name": "資訊管理學系",
+      "course_count": 25,
+      "named": true
+    },
+    "357": {
+      "name": "財務管理學系",
+      "course_count": 16,
+      "named": true
+    },
+    "358": {
+      "name": "風險管理與保險學系",
+      "course_count": 24,
+      "named": true
+    },
+    "363": {
+      "name": "企業管理研究所MBA學位學程",
+      "course_count": 34,
+      "named": true
+    },
+    "364": {
+      "name": "科技管理與智慧財產研究所",
+      "course_count": 30,
+      "named": true
+    },
+    "401": {
+      "name": "新聞學系",
+      "course_count": 14,
+      "named": true
+    },
+    "402": {
+      "name": "廣告學系",
+      "course_count": 17,
+      "named": true
+    },
+    "403": {
+      "name": "廣播電視學系",
+      "course_count": 16,
+      "named": true
+    },
+    "501": {
+      "name": "英國語文學系",
+      "course_count": 31,
+      "named": true
+    },
+    "502": {
+      "name": "阿拉伯語文學系",
+      "course_count": 27,
+      "named": true
+    },
+    "504": {
+      "name": "俄國語文學系",
+      "course_count": 49,
+      "named": true
+    },
+    "506": {
+      "name": "日本語文學系",
+      "course_count": 31,
+      "named": true
+    },
+    "507": {
+      "name": "韓國語文學系",
+      "course_count": 25,
+      "named": true
+    },
+    "508": {
+      "name": "土耳其語文學系",
+      "course_count": 23,
+      "named": true
+    },
+    "551": {
+      "name": "英國語文學系",
+      "course_count": 10,
+      "named": true
+    },
+    "554": {
+      "name": "俄國語文學系",
+      "course_count": 4,
+      "named": true
+    },
+    "555": {
+      "name": "語言學研究所",
+      "course_count": 7,
+      "named": true
+    },
+    "556": {
+      "name": "日本語文學系",
+      "course_count": 10,
+      "named": true
+    },
+    "601": {
+      "name": "法律學系",
+      "course_count": 78,
+      "named": true
+    },
+    "651": {
+      "name": "法律學系",
+      "course_count": 51,
+      "named": true
+    },
+    "701": {
+      "name": "應用數學系",
+      "course_count": 18,
+      "named": true
+    },
+    "702": {
+      "name": "心理學系",
+      "course_count": 21,
+      "named": true
+    },
+    "703": {
+      "name": "資訊科學系",
+      "course_count": 32,
+      "named": true
+    },
+    "751": {
+      "name": "應用數學系",
+      "course_count": 18,
+      "named": true
+    },
+    "752": {
+      "name": "心理學系",
+      "course_count": 22,
+      "named": true
+    },
+    "753": {
+      "name": "資訊科學系",
+      "course_count": 23,
+      "named": true
+    },
+    "911": {
+      "name": "中等學校教師在職進修學校行政碩士學位班",
+      "course_count": 6,
+      "named": true
+    },
+    "912": {
+      "name": "中等學校教師在職進修國文教學碩士學位班",
+      "course_count": 7,
+      "named": true
+    },
+    "921": {
+      "name": "行政管理碩士學程",
+      "course_count": 23,
+      "named": true
+    },
+    "922": {
+      "name": "外交學系戰略與國際事務碩士在職專班",
+      "course_count": 11,
+      "named": true
+    },
+    "923": {
+      "name": "地政學系碩士在職專班",
+      "course_count": 11,
+      "named": true
+    },
+    "933": {
+      "name": "國際經營管理碩士學程",
+      "course_count": 15,
+      "named": true
+    },
+    "934": {
+      "name": "生物科技管理學程",
+      "course_count": 1,
+      "named": true
+    },
+    "941": {
+      "name": "新聞學系碩士在職專班",
+      "course_count": 8,
+      "named": true
+    },
+    "951": {
+      "name": "英國語文學系英語教學碩士在職專班",
+      "course_count": 5,
+      "named": true
+    },
+    "961": {
+      "name": "法律碩士在職進修專班",
+      "course_count": 26,
+      "named": true
+    },
+    "981": {
+      "name": "國家安全與大陸研究碩士在職專班",
+      "course_count": 9,
+      "named": true
+    }
+  }
+}
