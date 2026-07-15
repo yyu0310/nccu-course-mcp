@@ -1,7 +1,7 @@
 # NCCU Course MCP
 
 An MCP server for querying NCCU (National Chengchi University) course listings
-(qrysub.nccu.edu.tw) programmatically — so an AI assistant or a student can search
+(qrysub.nccu.edu.tw) programmatically, so an AI assistant or a student can search
 courses in plain language instead of fighting the web UI.
 
 Course data is fetched **live** from the public course API on every query; there is
@@ -10,22 +10,22 @@ mapping department codes to names (regenerate any time with `build_dept_codes.py
 
 ## Tools
 
-- `list_departments(query="")` — list department codes/names/levels; filter by a name substring.
-- `search_courses(semester, dept, keyword="")` — courses for a department in a term.
+- `list_departments(query="")`: list department codes/names/levels; filter by a name substring.
+- `search_courses(semester, dept, keyword="")`: courses for a department in a term.
   - `semester`: academic-year + term, e.g. `1151` = AY115 term 1.
   - `dept`: department name or 3-digit code (e.g. `財務管理學系` or `357`).
   - `keyword`: optional; filter by course name / teacher / notes.
   - each course includes a `syllabus_url`.
-- `get_syllabus(syllabus_url)` — fetch a course's full syllabus as plain text
+- `get_syllabus(syllabus_url)`: fetch a course's full syllabus as plain text
   (description, objectives, learning outcomes, weekly schedule). Restricted to
   nccu.edu.tw URLs.
 
 ## Install
 
-> **Using Claude Code?** Paste this repo's URL and say *"install this MCP server"* —
-> Claude Code will read the command below and run it for you. Otherwise, copy one command.
+> **Using Claude Code?** Paste this repo's URL and say *"install this MCP server"*,
+> and it will read the command below and run it for you. Otherwise, copy one command.
 
-### Recommended — no clone, no venv (needs [uv](https://docs.astral.sh/uv/))
+### Recommended: no clone, no venv (needs [uv](https://docs.astral.sh/uv/))
 
 Runs straight from GitHub for Claude Code:
 
@@ -35,7 +35,7 @@ claude mcp add nccu-course -- uvx --from git+https://github.com/yyu0310/nccu-cou
 
 Don't have `uv`? Install it once: `curl -LsSf https://astral.sh/uv/install.sh | sh`
 
-### No-uv fallback — pip only
+### No-uv fallback: pip only
 
 Works with any Python 3.10+ (uses `pipx` to keep it isolated):
 
@@ -72,4 +72,4 @@ claude mcp add nccu-course -- ./.venv/bin/nccu-course-mcp
   `OP_LEGACY_SERVER_CONNECT` to connect.
 - Broad queries are capped at 500 rows upstream, so queries are always scoped per
   department.
-- Public course-catalog data only — this is not an exploit of any private system.
+- Uses only NCCU's public course catalog. It touches no private system and no login.
