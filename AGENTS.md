@@ -5,9 +5,16 @@ Context for AI assistants working on this repo.
 ## What this is
 
 A local (stdio) MCP server that queries NCCU's course-listing API
-(`es.nccu.edu.tw`, backing qrysub.nccu.edu.tw) and exposes three tools:
-`list_departments`, `search_courses`, `get_syllabus`. Live-only — no local
-course database.
+(`es.nccu.edu.tw`, backing qrysub.nccu.edu.tw) and exposes five tools:
+`search_all`, `check_schedule`, `list_departments`, `search_courses`,
+`get_syllabus`. Live-only — no local course database.
+
+Design principle: sink model intelligence into deterministic code (structured
+`slots`, `note_facts` mining, conflict checking) so weak models get the same
+answer quality as strong ones. Tool docstrings carry the query guide — they are
+the only documentation every MCP client is guaranteed to see. NEVER build a
+docstring by string concatenation (`"""...""" + X`): it silently becomes
+`__doc__ = None` and the tool registers with no description (test 6g guards this).
 
 ## Layout
 

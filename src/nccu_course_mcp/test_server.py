@@ -87,6 +87,11 @@ def run():
     assert c["slots"] == ["三D", "三5", "三6"], f"slots 解析錯: {c['slots']}"
     assert c["credits"] == 3.0 and isinstance(c["credits"], float), "credits 應為數字"
 
+    # 6g. 防回歸：所有工具的 docstring 必須存在（曾因字串串接寫法讓 __doc__ 變 None，
+    # MCP 註冊時工具說明整個消失——docstring 指南層是弱模型的生命線，不能空）
+    for fn in [S.list_departments, S.search_courses, S.search_all, S.check_schedule, S.get_syllabus]:
+        assert fn.__doc__ and len(fn.__doc__) > 100, f"{fn.__name__}.__doc__ 空了"
+
     # 6f. note_facts.restriction：無「優先」二字的班級限定寫法也要抽到
     from client import mine_note
     assert "會一甲" in mine_note("會一甲，本課程為3學分，原則不接受加簽").get("restriction", "")

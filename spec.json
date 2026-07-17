@@ -1,35 +1,43 @@
 {
   "name": "NCCU Course MCP",
-  "version": "0.1.0",
-  "purpose": "政大選課查詢 MCP server：讓 AI／學生程式化查課。逆向 qrysub 後端 JSON API，FastMCP 包成工具。",
-  "status": "v0 跑通（2026-07-15）",
+  "version": "0.2.0",
+  "purpose": "政大選課查詢 MCP server：讓 AI／學生程式化查課。逆向 qrysub 後端 JSON API，FastMCP 包成工具。設計核心：模型智慧下沉為決定性代碼（slots/note_facts/衝堂計算），縮小強弱模型答案品質差距。",
+  "status": "v2（2026-07-18）：高彈性 search_all + check_schedule 上線，22 人格 Sonnet QA + 5 人格 Haiku 對照全過",
   "language": "Python",
   "entrypoint": "src/nccu_course_mcp/server.py",
   "runtime": {"python": ">=3.10", "deps": ["mcp>=1.2.0", "requests>=2.31.0"], "venv": ".venv"},
-  "data_policy": "live-only；不存課程 DB；唯一靜態資產 dept_codes.json 為系名字典 snapshot",
+  "data_policy": "live-only；不存課程 DB；唯一靜態資產 dept_codes.json 為開課單位代碼 snapshot（218 代碼，來源 qrysub unit.json 全樹掃描）",
   "upstream_api": {
-    "endpoint": "https://es.nccu.edu.tw/course/zh-TW/:sem={sem}%20:dp3={dept_code}%20/",
+    "endpoint": "https://es.nccu.edu.tw/course/zh-TW/:sem={sem}%20[keyword]%20:dp3={code}%20:week={1-7}%20:lan={1|2}%20/",
     "method": "GET",
     "auth": "none (無 cookie/token/session)",
     "returns": "JSON array of course objects",
     "gotchas": [
       "legacy TLS renegotiation：需 OP_LEGACY_SERVER_CONNECT，否則 Python SSL 拒連",
-      "廣域查詢 500 筆硬上限：一律逐系(dp3)查詢"
+      "廣域查詢 500 筆硬上限：無條件查詢已在工具層改報錯",
+      "關鍵字直接放路徑（無參數名），伺服器端搜課名/教師/備註/完整課號；:curn= 死路棄用",
+      "短英文關鍵字（如 AI）伺服器放水：工具層以 matched 欄位本地驗證濾雜訊"
     ]
   },
   "dept_code_scheme": {
-    "format": "三碼；首碼=學院、中間碼學制(0-4大學部/5-8研究所)、9xx=學程/在職專班",
-    "identity": "dp3 = 課號前3碼 = 學號系所碼",
-    "example": {"財管大學部": "307", "財管研究所": "357", "資管研究所": "356", "企研MBA": "363"}
+    "format": "dp3 查詢代碼，權威來源 qrysub assets/api/unit.json 單位樹（17 個 L1）",
+    "regular": "系所課：dp3 = 課號前3碼 = 系所碼（財管大學部 307、研究所 357）",
+    "exceptions": "整開/通識/校級選修（107=經濟學、2S1-2S8，課號 000 開頭與 dp3 脫鉤）、學分學程 P01-P79、輔系 3S1-3S8、體育 6S1/6S3、字母碼學院 ZU1/ZM1/ZC0/NU1"
   },
   "tools": [
-    {"name": "list_departments", "args": {"query": "str=''"}, "returns": "[{code,name,level,course_count}]"},
-    {"name": "search_courses", "args": {"semester": "str 如1151", "dept": "系名或三碼", "keyword": "str=''"},
-     "returns": "{semester,dept_code,dept_name,count,courses:[{course_id,name,teacher,time,credits,kind,target,classroom,language,note,remain_url,syllabus_url}]}"},
-    {"name": "get_syllabus", "args": {"syllabus_url": "search_courses 回傳的 syllabus_url"},
-     "returns": "教學大綱純文字全文；抓取限 nccu.edu.tw 網域"}
+    {"name": "search_all", "args": {"semester": "str", "keyword": "str=''", "week": "1-7", "language": "中文|英文", "dept": "代碼/系名/群組詞(通識|整開|體育|學分學程|輔系)", "kind": "str=''", "core_ge": "是|否", "teacher": "str=''"},
+     "returns": "{count,truncated,warnings,courses:[…+slots+note_facts+matched]}；keyword/dept/teacher 至少一個否則報錯"},
+    {"name": "check_schedule", "args": {"semester": "str", "course_ids": "[9碼課號]", "extra_times": "[如'四78']=[]"},
+     "returns": "{ok,conflicts(含cross_listed學碩合開標記),warnings(時間未定),timetable(TA節次標(實習)),courses}"},
+    {"name": "list_departments", "args": {"query": "str=''"}, "returns": "list[{code,name,level,course_count}]"},
+    {"name": "search_courses", "args": {"semester": "str", "dept": "單位名或代碼", "keyword": "str=''"},
+     "returns": "{semester,dept_code,dept_name,count,courses:[…]}；欄位同 search_all"},
+    {"name": "get_syllabus", "args": {"syllabus_url": "courses 回傳的 syllabus_url"},
+     "returns": "教學大綱純文字全文；無大綱回明確提示文字；抓取限 nccu.edu.tw 網域"}
   ],
-  "tests": "src/nccu_course_mcp/test_server.py（實打 live 6 項：解析/歧義/查詢/keyword/清單）",
+  "normalized_fields": "course_id/name/teacher/time/slots(結構化節次)/credits(float)/kind/target/classroom/language/core_ge/note/note_facts(ta_time,exam,priority,restriction,no_add,english_taught,has_ta_session)/matched/remain_url/syllabus_url",
+  "tests": "src/nccu_course_mcp/test_server.py（實打 live ~20 項，含 docstring 非空防回歸 6g）",
+  "docs": {"query_guide": "QUERY_GUIDE.md", "architecture": "architecture.md", "agents": "AGENTS.md"},
   "license": "MIT",
-  "backlog": ["系所簡稱別名", "即時餘額抓取", "跨系關鍵字全校搜", "衝堂檢查", "依同學建議.md 選課準則自動篩"]
+  "backlog": ["level 學制篩選參數", "priority_dept 伺服器端過濾", "節次→鐘點結構化欄位", "同義詞擴展", "即時餘額抓取"]
 }

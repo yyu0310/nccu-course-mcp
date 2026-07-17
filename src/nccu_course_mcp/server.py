@@ -111,10 +111,6 @@ def search_courses(semester: str, dept: str, keyword: str = "") -> dict:
             "count": len(rows), "courses": rows}
 
 
-PERIOD_TABLE = ("節次對照: 1=08:10 2=09:10 3=10:10 4=11:10 C=12:10 D=13:10 5=14:10 "
-                "6=15:10 7=16:10 8=17:10 E=18:10 F=19:10 G=20:10（各 50 分鐘）")
-
-
 @mcp.tool()
 def search_all(semester: str, keyword: str = "", week: str = "", language: str = "",
                dept: str = "", kind: str = "", core_ge: str = "", teacher: str = "") -> dict:
@@ -152,7 +148,8 @@ def search_all(semester: str, keyword: str = "", week: str = "", language: str =
       ta_time(實習課節次)/exam(會考日)/priority(優先/灌檔系所)/restriction(限修班級)/
       no_add(不可加簽)/english_taught/has_ta_session(有實習課但時間未定)。
     - target 是「開課對象」非選課資格；真正的資格限制看 note_facts.restriction/priority。
-    - """ + PERIOD_TABLE + """
+    - 節次對照: 1=08:10 2=09:10 3=10:10 4=11:10 C=12:10 D=13:10 5=14:10 6=15:10
+      7=16:10 8=17:10 E=18:10 F=19:10 G=20:10（各 50 分鐘）。
 
     選課常識（重要）: 大一大二全校共同必修（經濟學/統計學/初級會計學/微積分/大學英文…）
     不在各系代碼下，掛在「整開」科目代碼（dept='整開' 一次查、或 list_departments('整開')）；
@@ -218,7 +215,9 @@ def check_schedule(semester: str, course_ids: list[str], extra_times: list[str] 
       timetable: {週幾: {節次: 課名}} 週課表；TA 實習課節次標 "(實習)"。
       courses:   list（依 course_ids 順序），每項是該課的正規化資料（含 slots 與
                  note_facts；note_facts.ta_time 有值時已自動併入該課時段一起檢查）。
-    """ + PERIOD_TABLE
+    節次對照: 1=08:10 2=09:10 3=10:10 4=11:10 C=12:10 D=13:10 5=14:10 6=15:10
+    7=16:10 8=17:10 E=18:10 F=19:10 G=20:10（各 50 分鐘）。
+    """
     items, warnings = [], []
     for cid in course_ids:
         rows = query_raw(semester, keyword=cid)
