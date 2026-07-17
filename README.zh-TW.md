@@ -8,14 +8,22 @@
 
 ## 工具
 
-- `list_departments(query="")`：列出系所代碼／系名／學制，可用系名子字串篩選。
-- `search_courses(semester, dept, keyword="")`：查某系某學期的開課。
+- `search_all(semester, keyword="", week="", language="", dept="", kind="", core_ge="", teacher="")`：
+  全校跨單位彈性查課。關鍵字由伺服器端搜課名／教師／備註／完整課號，可再用星期、
+  授課語言、必選修、核心通識、教師名過濾。不知道課掛在哪個單位時用這個。
+- `check_schedule(semester, course_ids, extra_times=[])`：衝堂檢查。給完整課號清單，
+  回衝突明細＋週課表；備註裡的 TA 實習課時間會自動併入檢查。
+- `list_departments(query="")`：列出開課單位代碼（含系所、整開科目、通識、體育、
+  學分學程），可用名稱子字串篩選。
+- `search_courses(semester, dept, keyword="")`：查某開課單位某學期的開課。
   - `semester`：學年+學期，例如 `1151` = 115 學年第 1 學期。
-  - `dept`：系名或三碼代碼（例如 `財務管理學系` 或 `357`）。
-  - `keyword`：選填，以關鍵字篩課名／教師／備註。
-  - 每門課都附 `syllabus_url`。
+  - `dept`：單位名或代碼（例如 `財務管理學系`、`357`、`107`＝整開的經濟學）。
 - `get_syllabus(syllabus_url)`：讀取某門課的教學大綱全文（課程簡介、課程目標、學習成效、
   每週進度）。僅接受 nccu.edu.tw 網域的連結。
+
+每門課都回結構化欄位：`slots`（節次清單，衝堂判斷不用解析「三CD78」）、`note_facts`
+（備註抽取：實習課時間／會考日期／優先系／加簽限制／英語授課）、`syllabus_url`。
+查詢配方與選課領域知識見 [QUERY_GUIDE.md](QUERY_GUIDE.md)。
 
 ## 安裝
 

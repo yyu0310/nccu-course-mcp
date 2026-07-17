@@ -18,13 +18,19 @@
 
 ## 代碼制度
 
-- 三碼制，全校共用：首碼=學院、中間碼=學制（0-4 大學部／5-8 研究所）、9xx=學程/在職專班。
-- **dp3 = 課號前 3 碼 = 學號系所碼**，三者同源。例：財管 大學部 307、研究所 357。
-- 同名跨學制會有兩碼（307/357 都叫「財務管理學系」），`_resolve_dept` 遇歧義不猜、回錯誤請對方指定代碼。
+- 查詢代碼的權威來源是 qrysub 前端靜態檔 `https://qrysub.nccu.edu.tw/assets/api/unit.json`（單位樹：L1=院級 17 個、L2=學制/群組、L3=dp3 代碼）。`build_dept_codes.py` 掃整棵樹＋live 驗證有課才收錄；手維 NAME 字典僅備援。
+- 一般系所：三碼數字，首碼=學院、**dp3 = 課號前 3 碼 = 系所碼**。例：財管 大學部 307、研究所 357。
+- **例外（2026-07-17 修的盲區）：dp3 ≠ 課號前 3 碼的三個特殊 L1**——
+  - 整開/通識/校級選修（L1=01）：dp3 是科目代碼（107=經濟學、113=初級會計學、2S4=社會科學類通識），課號卻是 000 開頭。全校/全院共同課（大一經濟學 16 班等）全掛這裡。
+  - 輔系專班/學分學程專班（L1=02）：3S1-3S8 輔系、P01-P79 學分學程。
+  - 體育/全民國防（L1=03）：6S1 體育必修、6S2 體育選修、6S3 適應體育、7S1 全民國防。
+  - 另有字母代碼學院：ZU1/ZM1 創新國際、ZC0 X實驗學院、NU1 運動產業學程、1T3 師培中心、5T1 外文中心。
+- 學制（level）以單位樹 L2 為準（學士班→大學部、碩/博→研究所、同碼多掛併集如「大學部/研究所」），特殊單位存群組名（整開/通識/體育課程…）。
+- 同名跨學制/跨單位會有多碼（307/357 都叫「財務管理學系」；「經濟學」命中經濟學系 208 與整開 107），`_resolve_dept` 遇歧義不猜、回錯誤請對方指定代碼。
 
 ## 檔案結構
 
-- `dept_codes.json` — 系所代碼 snapshot（115/07/15，83 系），server 載入用
+- `dept_codes.json` — 開課單位代碼 snapshot（2026-07-17 全樹重掃，218 個代碼），server 載入用
 - `requirements.txt` — mcp、requests
 - `src/nccu_course_mcp/`
   - `client.py` — legacy-SSL session ＋ `search_raw()`（打 API）＋ `normalize()`（欄位正規化）
@@ -32,11 +38,26 @@
   - `build_dept_codes.py` — 掃 live 重建 `dept_codes.json`（含系名字典種子）
   - `test_server.py` — 功能自測（實打 live）
 
-## 工具
+## 工具（v2，2026-07-18 高彈性改版）
 
-- `list_departments(query="")` → 系所表（code/name/level/course_count），query 以官方系名子字串篩。
-- `search_courses(semester, dept, keyword="")` → 某系某學期開課；dept 收系名或三碼；keyword 篩課名/教師/備註。回傳正規化欄位（course_id/name/teacher/time/credits/kind/target/classroom/language/note/remain_url/syllabus_url）。
-- `get_syllabus(syllabus_url)` → 讀教學大綱全文（純文字，含課程簡介/目標/學習成效/每週進度）。url 用 search_courses 的 `syllabus_url` 欄位（= API 的 `teaSchmUrl`，schmPrv 頁）。抓取限 nccu.edu.tw 網域。
+- `search_all(semester, keyword, week, language, dept, kind, core_ge, teacher)` → 全校跨單位彈性查詢。keyword 伺服器端搜課名/教師/備註/完整課號（課號全碼＝精準反查）；week=1-7、language 中文/英文 伺服器端過濾；kind/core_ge/teacher 本地過濾。回 truncated 旗標（命中 500 上限）。
+- `check_schedule(semester, course_ids, extra_times)` → 決定性衝堂檢查：課號用 keyword 反查、slots 交集、note_facts.ta_time 自動併入、回衝突明細＋週課表。
+- `list_departments(query="")` → 開課單位表（code/name/level/course_count）。
+- `search_courses(semester, dept, keyword="")` → 某單位某學期開課。
+- `get_syllabus(syllabus_url)` → 讀教學大綱全文。抓取限 nccu.edu.tw 網域。
+
+正規化欄位新增：`slots`（parse_slots 解「三CD78」→ ['三C','三D','三7','三8']）、`core_ge`（核心通識 是/否）、`note_facts`（mine_note 抽備註：ta_time/exam/priority/no_add/english_taught/has_ta_session）。
+
+### 縮小強弱模型差距的設計（2026-07-18）
+
+原則：模型會做錯的事下沉成工具保證——時間解析（slots）、備註暗雷（note_facts）、衝堂判斷（check_schedule）、截斷警示（truncated）全部決定性計算；查詢指南寫進 docstring（所有 MCP client 都看得到）；QUERY_GUIDE.md 是給人與讀 repo 的 agent 的鏡像文件。
+
+### 查詢文法（逆向 qrysub main JS 的 getData()，2026-07-18）
+
+- 關鍵字直接放路徑（無參數名），伺服器端全文搜；`/`→`／`、`[]`→空白（checkKeyword 同款清洗）。
+- `:week=1-7`、`:lan=1中文/2英文`、`:dp1/:dp2/:dp3` 可自由組合，全 AND。
+- `:curn=`（前端的課號查詢參數）實測各種格式都回 0，棄用；課號當 keyword 反而精準命中。
+- 單位樹靜態檔 `qrysub.nccu.edu.tw/assets/api/unit.json`＝dp1/dp2/dp3 權威來源。
 
 > 註：course「更多」彈窗的欄位多數已在 search API 內（language/pay/core/far/tranTpe…），唯教學大綱需另抓 `teaSchmUrl`。餘額(`remain_url`)、選課設定(`subSetUrl`)、教師專長(`teaExpUrl`) 亦為另抓連結，暫未展開。
 

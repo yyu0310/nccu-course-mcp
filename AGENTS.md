@@ -30,8 +30,14 @@ python -m venv .venv && ./.venv/bin/pip install -e .
   rejects it. The adapter in `client.py` handles it — keep it.
 - **500-row cap**: broad queries (omitting `dp3`) are truncated at 500 rows upstream.
   Always query per department (`dp3`), never school-wide in one call.
-- **Query shape**: `sem` + `dp3` is enough; `dp1`/`dp2` are optional. `dp3` = first 3
-  digits of a course id = the department code.
+- **Query shape**: `sem` + `dp3` is enough; `dp1`/`dp2` are optional. For regular
+  departments, `dp3` = first 3 digits of a course id = the department code.
+- **dp3 is NOT always the course-id prefix** (2026-07-17 bug): school-wide units use
+  their own dp3 code spaces — 整開/通識 (107=經濟學, 2S4=社會科學類通識; course ids start
+  `000`), 學分學程 (P01–P79), 體育/國防 (6S1/7S1), plus alphanumeric college codes
+  (ZU1, ZC0, NU1, 1T3…). The authoritative code tree is the qrysub frontend static file
+  `https://qrysub.nccu.edu.tw/assets/api/unit.json` (17 L1 units / L2 level / L3 = dp3).
+  `build_dept_codes.py` scans that whole tree; the hardcoded NAME dict is fallback only.
 - **Same name, two codes**: a department name can map to both an undergrad and a
   graduate code (e.g. 財務管理學系 = 307 and 357). `_resolve_dept` refuses to guess.
 - `fetch_syllabus` is host-restricted to `*.nccu.edu.tw` — keep that check (trust boundary).

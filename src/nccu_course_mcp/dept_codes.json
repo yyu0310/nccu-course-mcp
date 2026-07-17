@@ -4,420 +4,1313 @@
   "source": "es.nccu.edu.tw live API",
   "note": "code=課號前3碼=dp3；有課才收錄。更新: 改 SEM 重跑 build_dept_codes.py",
   "depts": {
+    "100": {
+      "name": "人文榮譽學程",
+      "course_count": 8,
+      "named": true,
+      "level": "大學部"
+    },
     "101": {
       "name": "中國文學系",
       "course_count": 27,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "102": {
       "name": "教育學系",
       "course_count": 26,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "103": {
       "name": "歷史學系",
       "course_count": 17,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "104": {
       "name": "哲學系",
       "course_count": 16,
-      "named": true
+      "named": true,
+      "level": "大學部"
+    },
+    "105": {
+      "name": "整開：管理學",
+      "course_count": 6,
+      "named": true,
+      "level": "整開"
+    },
+    "106": {
+      "name": "整開：統計學",
+      "course_count": 12,
+      "named": true,
+      "level": "整開"
+    },
+    "107": {
+      "name": "整開：經濟學",
+      "course_count": 16,
+      "named": true,
+      "level": "整開"
     },
     "109": {
-      "name": "教育學程中心",
+      "name": "整開：行銷管理",
       "course_count": 3,
-      "named": true
+      "named": true,
+      "level": "整開"
+    },
+    "110": {
+      "name": "整開：投資學",
+      "course_count": 4,
+      "named": true,
+      "level": "整開"
+    },
+    "111": {
+      "name": "整開：社會學",
+      "course_count": 1,
+      "named": true,
+      "level": "整開"
+    },
+    "112": {
+      "name": "整開：政治學",
+      "course_count": 4,
+      "named": true,
+      "level": "整開"
+    },
+    "113": {
+      "name": "整開：初級會計學（一）",
+      "course_count": 14,
+      "named": true,
+      "level": "整開"
+    },
+    "114": {
+      "name": "整開：初級會計學（二）",
+      "course_count": 1,
+      "named": true,
+      "level": "整開"
+    },
+    "115": {
+      "name": "整開：中級會計學（一）",
+      "course_count": 4,
+      "named": true,
+      "level": "整開"
+    },
+    "118": {
+      "name": "整開：成本管理會計（一）",
+      "course_count": 3,
+      "named": true,
+      "level": "整開"
+    },
+    "119": {
+      "name": "整開：民法概要",
+      "course_count": 1,
+      "named": true,
+      "level": "整開"
+    },
+    "120": {
+      "name": "整開：個體經濟學",
+      "course_count": 3,
+      "named": true,
+      "level": "整開"
+    },
+    "121": {
+      "name": "整開：財政學",
+      "course_count": 3,
+      "named": true,
+      "level": "整開"
+    },
+    "122": {
+      "name": "整開：財務管理",
+      "course_count": 10,
+      "named": true,
+      "level": "整開"
+    },
+    "123": {
+      "name": "整開：國際關係",
+      "course_count": 2,
+      "named": true,
+      "level": "整開"
+    },
+    "124": {
+      "name": "整開：貨幣銀行學",
+      "course_count": 2,
+      "named": true,
+      "level": "整開"
+    },
+    "126": {
+      "name": "整開：普通心理學",
+      "course_count": 2,
+      "named": true,
+      "level": "整開"
+    },
+    "129": {
+      "name": "整開：總體經濟學",
+      "course_count": 4,
+      "named": true,
+      "level": "整開"
+    },
+    "130": {
+      "name": "整開：商事法",
+      "course_count": 3,
+      "named": true,
+      "level": "整開"
+    },
+    "137": {
+      "name": "整開：微積分",
+      "course_count": 9,
+      "named": true,
+      "level": "整開"
+    },
+    "138": {
+      "name": "整開：華語特別班",
+      "course_count": 44,
+      "named": true,
+      "level": "整開"
+    },
+    "140": {
+      "name": "整開：多媒體與程式設計軟體",
+      "course_count": 2,
+      "named": true,
+      "level": "整開"
+    },
+    "141": {
+      "name": "整開：資料分析與程式設計入門",
+      "course_count": 4,
+      "named": true,
+      "level": "整開"
+    },
+    "142": {
+      "name": "整開：企業倫理與社會責任",
+      "course_count": 5,
+      "named": true,
+      "level": "整開"
     },
     "151": {
       "name": "中國文學系",
       "course_count": 12,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "152": {
       "name": "教育學系",
       "course_count": 14,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "153": {
       "name": "歷史學系",
       "course_count": 11,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "154": {
       "name": "哲學系",
       "course_count": 14,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "155": {
       "name": "圖書資訊與檔案學研究所",
       "course_count": 13,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "156": {
       "name": "宗教研究所",
       "course_count": 17,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "157": {
       "name": "幼兒教育研究所",
       "course_count": 9,
-      "named": true
+      "named": true,
+      "level": "研究所"
+    },
+    "158": {
+      "name": "台灣史研究所",
+      "course_count": 21,
+      "named": true,
+      "level": "研究所"
+    },
+    "159": {
+      "name": "台灣文學研究所",
+      "course_count": 9,
+      "named": true,
+      "level": "研究所"
+    },
+    "160": {
+      "name": "華語文教學博士學位學程",
+      "course_count": 4,
+      "named": true,
+      "level": "研究所"
+    },
+    "161": {
+      "name": "華語文教學碩士學位學程",
+      "course_count": 7,
+      "named": true,
+      "level": "研究所"
+    },
+    "163": {
+      "name": "東亞與現代世界形成國際研究生博士學位學程",
+      "course_count": 10,
+      "named": true,
+      "level": "研究所"
+    },
+    "171": {
+      "name": "教育行政與政策研究所",
+      "course_count": 7,
+      "named": true,
+      "level": "研究所"
+    },
+    "172": {
+      "name": "輔導與諮商碩士學位學程",
+      "course_count": 11,
+      "named": true,
+      "level": "研究所"
+    },
+    "1T3": {
+      "name": "師資培育中心",
+      "course_count": 19,
+      "named": true,
+      "level": "大學部"
     },
     "202": {
       "name": "政治學系",
       "course_count": 20,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "203": {
       "name": "外交學系",
       "course_count": 18,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "204": {
       "name": "社會學系",
       "course_count": 20,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "205": {
       "name": "財政學系",
       "course_count": 23,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "206": {
       "name": "公共行政學系",
       "course_count": 16,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "207": {
       "name": "地政學系",
       "course_count": 43,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "208": {
       "name": "經濟學系",
       "course_count": 12,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "209": {
       "name": "民族學系",
       "course_count": 28,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "252": {
       "name": "政治學系",
       "course_count": 21,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "253": {
       "name": "外交學系",
       "course_count": 12,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "254": {
       "name": "社會學系",
       "course_count": 13,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "255": {
       "name": "財政學系",
       "course_count": 23,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "256": {
       "name": "公共行政學系",
       "course_count": 13,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "257": {
       "name": "地政學系",
       "course_count": 15,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "258": {
       "name": "經濟學系",
       "course_count": 15,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "259": {
       "name": "民族學系",
       "course_count": 10,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "260": {
       "name": "東亞研究所",
       "course_count": 15,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "261": {
-      "name": "中山人文社會科學研究所",
+      "name": "國家發展研究所",
       "course_count": 16,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "262": {
       "name": "勞工研究所",
       "course_count": 8,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "263": {
       "name": "俄羅斯研究所",
       "course_count": 9,
-      "named": true
+      "named": true,
+      "level": "研究所"
+    },
+    "264": {
+      "name": "社會工作研究所",
+      "course_count": 11,
+      "named": true,
+      "level": "研究所"
+    },
+    "265": {
+      "name": "亞太研究英語博士學位學程",
+      "course_count": 13,
+      "named": true,
+      "level": "研究所"
+    },
+    "266": {
+      "name": "應用經濟與社會發展英語碩士學位學程",
+      "course_count": 23,
+      "named": true,
+      "level": "研究所"
+    },
+    "267": {
+      "name": "土地政策與環境規劃碩士原住民專班",
+      "course_count": 4,
+      "named": true,
+      "level": "研究所"
+    },
+    "2S1": {
+      "name": "通識：中國語文類通識",
+      "course_count": 44,
+      "named": true,
+      "level": "通識"
+    },
+    "2S2": {
+      "name": "通識：外國語文類通識",
+      "course_count": 56,
+      "named": true,
+      "level": "通識"
+    },
+    "2S3": {
+      "name": "通識：人文學類通識",
+      "course_count": 39,
+      "named": true,
+      "level": "通識"
+    },
+    "2S4": {
+      "name": "通識：社會科學類通識",
+      "course_count": 46,
+      "named": true,
+      "level": "通識"
+    },
+    "2S5": {
+      "name": "通識：自然科學類通識",
+      "course_count": 28,
+      "named": true,
+      "level": "通識"
+    },
+    "2S6": {
+      "name": "通識：跨領域類通識",
+      "course_count": 15,
+      "named": true,
+      "level": "通識"
+    },
+    "2S7": {
+      "name": "通識：書院通識",
+      "course_count": 7,
+      "named": true,
+      "level": "通識"
+    },
+    "2S8": {
+      "name": "通識：資訊通識",
+      "course_count": 13,
+      "named": true,
+      "level": "通識"
     },
     "300": {
-      "name": "商學院不分系（院共同課）",
+      "name": "商學院",
       "course_count": 49,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "301": {
-      "name": "國際貿易學系",
+      "name": "國際經營與貿易學系",
       "course_count": 21,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "302": {
       "name": "金融學系",
       "course_count": 13,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "303": {
       "name": "會計學系",
       "course_count": 18,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "304": {
       "name": "統計學系",
       "course_count": 8,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "305": {
       "name": "企業管理學系",
       "course_count": 21,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "306": {
       "name": "資訊管理學系",
       "course_count": 28,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "307": {
       "name": "財務管理學系",
       "course_count": 8,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "308": {
       "name": "風險管理與保險學系",
       "course_count": 13,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "351": {
-      "name": "國際貿易學系",
+      "name": "國際經營與貿易學系",
       "course_count": 25,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "352": {
       "name": "金融學系",
       "course_count": 19,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "353": {
       "name": "會計學系",
       "course_count": 16,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "354": {
       "name": "統計學系",
-      "course_count": 13,
-      "named": true
+      "course_count": 14,
+      "named": true,
+      "level": "研究所"
     },
     "355": {
       "name": "企業管理學系",
       "course_count": 15,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "356": {
       "name": "資訊管理學系",
       "course_count": 25,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "357": {
       "name": "財務管理學系",
       "course_count": 16,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "358": {
       "name": "風險管理與保險學系",
       "course_count": 24,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "363": {
       "name": "企業管理研究所MBA學位學程",
       "course_count": 34,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "364": {
       "name": "科技管理與智慧財產研究所",
       "course_count": 30,
-      "named": true
+      "named": true,
+      "level": "研究所"
+    },
+    "3S2": {
+      "name": "輔系專班：外輔",
+      "course_count": 1,
+      "named": true,
+      "level": "輔系專班"
+    },
+    "3S4": {
+      "name": "輔系專班：會輔",
+      "course_count": 2,
+      "named": true,
+      "level": "輔系專班"
+    },
+    "3S5": {
+      "name": "輔系專班：英輔",
+      "course_count": 7,
+      "named": true,
+      "level": "輔系專班"
+    },
+    "3S6": {
+      "name": "輔系專班：日輔",
+      "course_count": 31,
+      "named": true,
+      "level": "輔系專班"
+    },
+    "3S7": {
+      "name": "輔系專班：韓輔",
+      "course_count": 11,
+      "named": true,
+      "level": "輔系專班"
+    },
+    "3S8": {
+      "name": "輔系專班：法輔",
+      "course_count": 2,
+      "named": true,
+      "level": "輔系專班"
+    },
+    "400": {
+      "name": "傳播學院 前段不分班課程",
+      "course_count": 13,
+      "named": true,
+      "level": "大學部/研究所"
     },
     "401": {
       "name": "新聞學系",
       "course_count": 14,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "402": {
       "name": "廣告學系",
       "course_count": 17,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "403": {
       "name": "廣播電視學系",
       "course_count": 16,
-      "named": true
+      "named": true,
+      "level": "大學部"
+    },
+    "405": {
+      "name": "傳播學院大一大二不分系",
+      "course_count": 28,
+      "named": true,
+      "level": "大學部"
+    },
+    "461": {
+      "name": "國際傳播英語碩士學位學程",
+      "course_count": 13,
+      "named": true,
+      "level": "研究所"
+    },
+    "462": {
+      "name": "數位內容碩士學位學程",
+      "course_count": 14,
+      "named": true,
+      "level": "研究所"
+    },
+    "463": {
+      "name": "傳播學院博士班",
+      "course_count": 10,
+      "named": true,
+      "level": "研究所"
+    },
+    "464": {
+      "name": "傳播學院碩士學位學程",
+      "course_count": 25,
+      "named": true,
+      "level": "研究所"
+    },
+    "465": {
+      "name": "亞際文化研究國際碩士學位學程",
+      "course_count": 10,
+      "named": true,
+      "level": "研究所"
     },
     "501": {
       "name": "英國語文學系",
       "course_count": 31,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "502": {
       "name": "阿拉伯語文學系",
       "course_count": 27,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "504": {
-      "name": "俄國語文學系",
+      "name": "斯拉夫語文學系",
       "course_count": 49,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "506": {
       "name": "日本語文學系",
       "course_count": 31,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "507": {
       "name": "韓國語文學系",
       "course_count": 25,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "508": {
       "name": "土耳其語文學系",
       "course_count": 23,
-      "named": true
+      "named": true,
+      "level": "大學部"
+    },
+    "509": {
+      "name": "歐洲語文學系",
+      "course_count": 54,
+      "named": true,
+      "level": "大學部"
+    },
+    "510": {
+      "name": "東南亞語文學系",
+      "course_count": 50,
+      "named": true,
+      "level": "大學部"
     },
     "551": {
       "name": "英國語文學系",
       "course_count": 10,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "554": {
-      "name": "俄國語文學系",
+      "name": "斯拉夫語文學系",
       "course_count": 4,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "555": {
       "name": "語言學研究所",
       "course_count": 7,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "556": {
       "name": "日本語文學系",
       "course_count": 10,
-      "named": true
+      "named": true,
+      "level": "研究所"
+    },
+    "557": {
+      "name": "韓國語文學系",
+      "course_count": 6,
+      "named": true,
+      "level": "研究所"
+    },
+    "560": {
+      "name": "中東與中亞研究碩士學位學程",
+      "course_count": 16,
+      "named": true,
+      "level": "研究所"
+    },
+    "5T1": {
+      "name": "外文中心",
+      "course_count": 60,
+      "named": true,
+      "level": "大學部"
     },
     "601": {
       "name": "法律學系",
       "course_count": 78,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "651": {
       "name": "法律學系",
       "course_count": 51,
-      "named": true
+      "named": true,
+      "level": "研究所"
+    },
+    "652": {
+      "name": "法律科際整合研究所",
+      "course_count": 42,
+      "named": true,
+      "level": "研究所"
+    },
+    "6S1": {
+      "name": "體育課程：體育必修",
+      "course_count": 103,
+      "named": true,
+      "level": "體育課程"
+    },
+    "6S3": {
+      "name": "體育課程：適應體育(原特別班)",
+      "course_count": 1,
+      "named": true,
+      "level": "體育課程"
     },
     "701": {
       "name": "應用數學系",
       "course_count": 18,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "702": {
       "name": "心理學系",
       "course_count": 21,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "703": {
       "name": "資訊科學系",
       "course_count": 32,
-      "named": true
+      "named": true,
+      "level": "大學部"
     },
     "751": {
       "name": "應用數學系",
       "course_count": 18,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "752": {
       "name": "心理學系",
       "course_count": 22,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "753": {
       "name": "資訊科學系",
       "course_count": 23,
-      "named": true
+      "named": true,
+      "level": "研究所"
+    },
+    "754": {
+      "name": "神經科學研究所",
+      "course_count": 7,
+      "named": true,
+      "level": "研究所"
+    },
+    "755": {
+      "name": "應用物理研究所",
+      "course_count": 7,
+      "named": true,
+      "level": "研究所"
+    },
+    "761": {
+      "name": "社群網路與人智計算國際研究生博士學位學程",
+      "course_count": 5,
+      "named": true,
+      "level": "研究所"
+    },
+    "781": {
+      "name": "數位內容與科技學士學位學程",
+      "course_count": 13,
+      "named": true,
+      "level": "大學部"
+    },
+    "782": {
+      "name": "電子物理學士學位學程",
+      "course_count": 8,
+      "named": true,
+      "level": "大學部"
+    },
+    "783": {
+      "name": "人工智慧應用學士學位學程",
+      "course_count": 4,
+      "named": true,
+      "level": "大學部"
+    },
+    "791": {
+      "name": "資訊安全碩士學位學程",
+      "course_count": 12,
+      "named": true,
+      "level": "研究所"
+    },
+    "7S1": {
+      "name": "全民國防課程：全民國防課程",
+      "course_count": 6,
+      "named": true,
+      "level": "全民國防課程"
+    },
+    "861": {
+      "name": "日本研究碩士學位學程",
+      "course_count": 14,
+      "named": true,
+      "level": "研究所"
+    },
+    "862": {
+      "name": "國際研究英語碩士學位學程",
+      "course_count": 14,
+      "named": true,
+      "level": "研究所"
+    },
+    "863": {
+      "name": "日本研究博士學位學程",
+      "course_count": 9,
+      "named": true,
+      "level": "研究所"
+    },
+    "900": {
+      "name": "教育學院",
+      "course_count": 6,
+      "named": true,
+      "level": "研究所"
     },
     "911": {
-      "name": "中等學校教師在職進修學校行政碩士學位班",
+      "name": "學校行政碩士在職專班",
       "course_count": 6,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "912": {
-      "name": "中等學校教師在職進修國文教學碩士學位班",
+      "name": "國文教學碩士在職專班",
       "course_count": 7,
-      "named": true
+      "named": true,
+      "level": "研究所"
+    },
+    "913": {
+      "name": "圖書資訊學數位碩士在職專班",
+      "course_count": 6,
+      "named": true,
+      "level": "研究所"
     },
     "921": {
       "name": "行政管理碩士學程",
       "course_count": 23,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "922": {
       "name": "外交學系戰略與國際事務碩士在職專班",
       "course_count": 11,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "923": {
       "name": "地政學系碩士在職專班",
       "course_count": 11,
-      "named": true
+      "named": true,
+      "level": "研究所"
+    },
+    "926": {
+      "name": "亞太研究英語碩士學程",
+      "course_count": 21,
+      "named": true,
+      "level": "研究所"
     },
     "933": {
-      "name": "國際經營管理碩士學程",
+      "name": "國際經營管理英語碩士學位學程",
       "course_count": 15,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "934": {
       "name": "生物科技管理學程",
       "course_count": 1,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "941": {
-      "name": "新聞學系碩士在職專班",
+      "name": "傳播學院碩士在職專班",
       "course_count": 8,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "951": {
       "name": "英國語文學系英語教學碩士在職專班",
       "course_count": 5,
-      "named": true
+      "named": true,
+      "level": "研究所"
     },
     "961": {
-      "name": "法律碩士在職進修專班",
+      "name": "法學院碩士在職專班",
       "course_count": 26,
-      "named": true
+      "named": true,
+      "level": "研究所"
+    },
+    "971": {
+      "name": "資訊科學系碩士在職專班",
+      "course_count": 9,
+      "named": true,
+      "level": "研究所"
     },
     "981": {
       "name": "國家安全與大陸研究碩士在職專班",
       "course_count": 9,
-      "named": true
+      "named": true,
+      "level": "研究所"
+    },
+    "NU1": {
+      "name": "運動產業與文化學士學位學程",
+      "course_count": 6,
+      "named": true,
+      "level": "大學部"
+    },
+    "P01": {
+      "name": "學分學程專班：台灣與近代世界學程",
+      "course_count": 1,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P05": {
+      "name": "學分學程專班：華語文教學學分學程",
+      "course_count": 6,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P07": {
+      "name": "學分學程專班：中國大陸研究跨領域學程",
+      "course_count": 1,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P09": {
+      "name": "學分學程專班：斯拉夫語文學程",
+      "course_count": 39,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P14": {
+      "name": "學分學程專班：涉外事務與談判學程",
+      "course_count": 5,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P15": {
+      "name": "學分學程專班：外語傳播第二專長學程",
+      "course_count": 72,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P19": {
+      "name": "學分學程專班：法律與會計碩士學程",
+      "course_count": 12,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P21": {
+      "name": "學分學程專班：生物科技管理學程",
+      "course_count": 4,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P26": {
+      "name": "學分學程專班：專利學分學程",
+      "course_count": 16,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P29": {
+      "name": "學分學程專班：翻譯與跨文化學分學程",
+      "course_count": 40,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P30": {
+      "name": "學分學程專班：供應鏈管理學分學程",
+      "course_count": 12,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P31": {
+      "name": "學分學程專班：數理財務學分學程",
+      "course_count": 38,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P32": {
+      "name": "學分學程專班：語言、認知與大腦",
+      "course_count": 3,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P35": {
+      "name": "學分學程專班：外語專長商管學分學程",
+      "course_count": 6,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P36": {
+      "name": "學分學程專班：創意設計實務學分學程",
+      "course_count": 1,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P37": {
+      "name": "學分學程專班：電子物理學分學程",
+      "course_count": 6,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P39": {
+      "name": "學分學程專班：國際事務學院英語授課學分學程",
+      "course_count": 5,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P40": {
+      "name": "學分學程專班：傳播學院國際傳播英語學分學程",
+      "course_count": 5,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P41": {
+      "name": "學分學程專班：社會科學學院英語授課學分學程",
+      "course_count": 7,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P42": {
+      "name": "學分學程專班：法學院英語授課學分學程",
+      "course_count": 12,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P43": {
+      "name": "學分學程專班：理學院英語授課學分學程",
+      "course_count": 5,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P44": {
+      "name": "學分學程專班：教育學院英語授課學分學程",
+      "course_count": 5,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P45": {
+      "name": "學分學程專班：外國語文學院世界文化英語學分學程",
+      "course_count": 9,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P47": {
+      "name": "學分學程專班：大腦科學學分學程",
+      "course_count": 6,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P49": {
+      "name": "學分學程專班：人文創新學程",
+      "course_count": 13,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P51": {
+      "name": "學分學程專班：人文領袖榮譽學分學程",
+      "course_count": 11,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P52": {
+      "name": "學分學程專班：台灣文學與東亞學分學程",
+      "course_count": 3,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P53": {
+      "name": "學分學程專班：金融科技專長學分學程",
+      "course_count": 32,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P54": {
+      "name": "學分學程專班：創新與創造力學分學程",
+      "course_count": 19,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P55": {
+      "name": "學分學程專班：中國大陸與兩岸關係研究跨領域學分學程",
+      "course_count": 3,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P56": {
+      "name": "學分學程專班：數位人文技術與應用學分學程",
+      "course_count": 3,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P58": {
+      "name": "學分學程專班：台灣與近代東亞跨領域學分學程",
+      "course_count": 1,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P59": {
+      "name": "學分學程專班：近代東亞歷史文化跨國學分學程（跨國跨校）",
+      "course_count": 1,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P61": {
+      "name": "學分學程專班：社會實踐與社區共善學分學程",
+      "course_count": 6,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P62": {
+      "name": "學分學程專班：發展研究學分學程",
+      "course_count": 7,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P63": {
+      "name": "學分學程專班：歐洲聯盟研究國際學分學程",
+      "course_count": 7,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P64": {
+      "name": "學分學程專班：近代社會的身體與性別跨領域學分學程",
+      "course_count": 3,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P65": {
+      "name": "學分學程專班：臺灣原住民族發展學分學程",
+      "course_count": 38,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P66": {
+      "name": "學分學程專班：STEAM學分學程",
+      "course_count": 3,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P67": {
+      "name": "學分學程專班：全球治理雙語學分學程",
+      "course_count": 7,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P69": {
+      "name": "學分學程專班：東亞頂尖教育家國際學分學程",
+      "course_count": 5,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P70": {
+      "name": "學分學程專班：照顧哲學學分學程",
+      "course_count": 5,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P71": {
+      "name": "學分學程專班：資料科學與輿情分析學分學程",
+      "course_count": 4,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P72": {
+      "name": "學分學程專班：跨域、創新、實踐─應用中文學分學程",
+      "course_count": 2,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P73": {
+      "name": "學分學程專班：博物館學分學程",
+      "course_count": 3,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P74": {
+      "name": "學分學程專班：人工智慧探索應用學分學程",
+      "course_count": 3,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P75": {
+      "name": "學分學程專班：人工智慧自然語言技術學分學程",
+      "course_count": 6,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P76": {
+      "name": "學分學程專班：人工智慧視覺技術學分學程",
+      "course_count": 2,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P77": {
+      "name": "學分學程專班：跨領域精準健康學分學程",
+      "course_count": 6,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "P79": {
+      "name": "學分學程專班：人工智慧工業應用學分學程",
+      "course_count": 3,
+      "named": true,
+      "level": "學分學程專班"
+    },
+    "ZC0": {
+      "name": "X實驗學院",
+      "course_count": 11,
+      "named": true,
+      "level": "大學部"
+    },
+    "ZM1": {
+      "name": "全球傳播與創新科技碩士學位學程",
+      "course_count": 25,
+      "named": true,
+      "level": "研究所"
+    },
+    "ZU1": {
+      "name": "創新國際學院學士班",
+      "course_count": 38,
+      "named": true,
+      "level": "大學部"
     }
   }
 }

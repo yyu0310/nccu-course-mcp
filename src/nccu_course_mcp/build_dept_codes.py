@@ -1,17 +1,19 @@
 """重建系所代碼 snapshot：掃 live API 找出當前有開課的 dp3 代碼，配上中文系名。
 
-系名字典種子來自政大教務處全校學系代號表（見 architecture.md 資料來源）。
+系名字典種子來自政大教務處全校學系代號表（見 architecture.md 資料來源）；
+「整開/通識/校級選修」的科目代碼另從 qrysub 的 unit.json 單位樹即時抓
+（這批課號 000 開頭，dp3 是科目代碼如 107=經濟學，與課號前 3 碼脫鉤）。
 代碼是否「現行有效」以 live API 是否回課為準——這就是「走線上路線」的更新方式：
 改 SEM、重跑本檔，dept_codes.json 就更新到該學期。
 
 用法: python build_dept_codes.py [學期]   例: python build_dept_codes.py 1151
 """
-import json, sys, time
+import json, re, sys, time
 from pathlib import Path
 try:  # 直跑或當 package import 都要能載
-    from client import search_raw  # 共用同一支 legacy-SSL client
+    from client import search_raw, _session  # 共用同一支 legacy-SSL client
 except ImportError:
-    from nccu_course_mcp.client import search_raw
+    from nccu_course_mcp.client import search_raw, _session
 
 SEM = sys.argv[1] if len(sys.argv) > 1 else "1151"
 
@@ -57,8 +59,48 @@ NAME = {
     "981": "國家安全與大陸研究碩士在職專班",
 }
 
-# 掃描候選：字典所有 code + 商學院整段 300-399（確保新學程被抓到）
-candidates = sorted(set(NAME) | {str(n) for n in range(300, 400)})
+# qrysub 前端的開課單位樹（靜態檔）＝查詢代碼的權威來源。
+# L1=院級（含三個特殊單位：01 整開/通識/校級選修、02 輔系專班/學分學程專班、03 體育/國防），
+# L2=學制或群組，L3=dp3 查詢代碼。注意：特殊單位的 dp3 是「科目/學程代碼」
+# （107=經濟學、P01=學分學程、2S1=通識），與課號前 3 碼脫鉤（整開課號 000 開頭）。
+UNIT_JSON = "https://qrysub.nccu.edu.tw/assets/api/unit.json"
+SPECIAL_L1 = {"01", "02", "03"}  # 整開、輔系/學程專班、體育/國防
+_zh = lambda s: re.sub(r"\s*/.*$", "", s).strip()  # 去掉英文尾綴
+
+
+def fetch_units() -> dict:
+    """掃整棵單位樹，回 {dp3: {"name":…, "level":…}}。同碼多掛（大學部+研究所）合併 level。"""
+    tree = _session.get(UNIT_JSON, timeout=20).json()
+    out = {}
+    lv_map = {"學士班": "大學部", "碩士班": "研究所", "博士班": "研究所"}
+    for l1 in tree:
+        if l1["utCodL1"] == "0":
+            continue
+        for l2 in l1["utL2"]:
+            if l2["utCodL2"] == "0":
+                continue
+            l2t = _zh(l2["utL2Text"])
+            for l3 in l2["utL3"]:
+                code, text = l3["utCodL3"].upper(), _zh(l3["utL3Text"])
+                if code == "0":
+                    continue
+                if l1["utCodL1"] in SPECIAL_L1:
+                    name, level = f"{l2t}：{text}", l2t
+                else:
+                    name, level = text, lv_map.get(l2t, l2t)
+                if code in out:  # 同碼掛多學制/多學院：level 併集，名字保留首見
+                    if level not in out[code]["level"]:
+                        out[code]["level"] += f"/{level}"
+                else:
+                    out[code] = {"name": name, "level": level}
+    return out
+
+
+UNITS = fetch_units()
+print(f"unit.json 單位樹共 {len(UNITS)} 個 dp3 代碼")
+
+# 掃描候選：單位樹全部代碼 ∪ 系名字典（備援，防樹上暫時拿掉但仍有課的代碼）
+candidates = sorted(set(UNITS) | set(NAME))
 
 active = {}
 for code in candidates:
@@ -68,9 +110,15 @@ for code in candidates:
         print(f"  {code}: 錯誤 {e}")
         continue
     if rows:
-        name = NAME.get(code) or f"未知系所({rows[0].get('subGde','')[:6]})"
-        active[code] = {"name": name, "course_count": len(rows), "named": code in NAME}
-        flag = "" if code in NAME else "  ⚠ 字典缺名"
+        known = code in UNITS or code in NAME
+        if code in UNITS:
+            name = UNITS[code]["name"]
+        else:
+            name = NAME.get(code) or f"未知系所({rows[0].get('subGde','')[:6]})"
+        active[code] = {"name": name, "course_count": len(rows), "named": known}
+        if code in UNITS:
+            active[code]["level"] = UNITS[code]["level"]
+        flag = "" if known else "  ⚠ 字典缺名"
         print(f"  {code}: {len(rows):3d}門  {name}{flag}")
     time.sleep(0.12)
 
