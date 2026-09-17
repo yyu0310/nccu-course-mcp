@@ -88,8 +88,9 @@ def run():
     assert c["credits"] == 3.0 and isinstance(c["credits"], float), "credits 應為數字"
 
     # 6g. 防回歸：所有工具的 docstring 必須存在（曾因字串串接寫法讓 __doc__ 變 None，
-    # MCP 註冊時工具說明整個消失——docstring 指南層是弱模型的生命線，不能空）
-    for fn in [S.list_departments, S.search_courses, S.search_all, S.check_schedule, S.get_syllabus]:
+    # MCP 註冊時工具說明整個消失，docstring 指南層是弱模型的生命線，不能空）
+    for fn in [S.list_departments, S.search_courses, S.search_all, S.check_schedule,
+               S.get_syllabus, S.get_course_rating]:
         assert fn.__doc__ and len(fn.__doc__) > 100, f"{fn.__name__}.__doc__ 空了"
 
     # 6f. note_facts.restriction：無「優先」二字的班級限定寫法也要抽到
@@ -111,6 +112,27 @@ def run():
     print(f"✅ 全過。357 回 {r['count']} 門；『個案』篩後 {rk['count']} 門 = "
           + "、".join(c["name"] for c in rk["courses"])
           + f"；計量經濟學大綱 {len(syl)} 字可讀")
+
+    # 9. get_course_rating：需要 NCCU_STUDENT_ID + Keychain 密碼，兩者缺一就跳過
+    #    （這支工具是選用的，一般 clone 這個 repo 的人不會有政大帳密）
+    import os
+    if os.environ.get("NCCU_STUDENT_ID"):
+        rating = S.get_course_rating(semester="1151", course_id=eco["course_id"])
+        assert rating["found"] or "reason" in rating, f"回傳格式異常: {rating}"
+        if rating["found"]:
+            assert rating["rating"]["rows"], "找到課程但評量列表為空"
+            row = rating["rating"]["rows"][0]
+            assert set(row) >= {"year", "semester", "course_id", "course_name", "enrolled",
+                                "responded", "response_rate", "score", "comments"}
+            with_text = [r for r in rating["rating"]["rows"] if r["comments"]]
+            if with_text:
+                assert isinstance(with_text[0]["comments"][0], str), "comments 應為字串清單"
+            print(f"✅ get_course_rating：{rating['course']['teacher']} 共 {len(rating['rating']['rows'])} 筆歷史評量、"
+                  f"{len(with_text)} 筆有文字意見")
+        else:
+            print(f"✅ get_course_rating：跑通但這門課查無評量（{rating['reason']}）")
+    else:
+        print("[SKIP] get_course_rating（未設 NCCU_STUDENT_ID，這支工具本就選用）")
 
 if __name__ == "__main__":
     run()
