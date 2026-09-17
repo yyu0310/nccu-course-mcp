@@ -2,10 +2,10 @@
   "name": "NCCU Course MCP",
   "version": "0.2.0",
   "purpose": "政大選課查詢 MCP server：讓 AI／學生程式化查課。逆向 qrysub 後端 JSON API，FastMCP 包成工具。設計核心：模型智慧下沉為決定性代碼（slots/note_facts/衝堂計算），縮小強弱模型答案品質差距。",
-  "status": "v2（2026-07-18）：高彈性 search_all + check_schedule 上線，22 人格 Sonnet QA + 5 人格 Haiku 對照全過",
+  "status": "v0.2.0（2026-09-17）：加入選用登入功能 get_course_rating（教學評量查詢），核心五工具維持 v2 現狀不再迭代",
   "language": "Python",
   "entrypoint": "src/nccu_course_mcp/server.py",
-  "runtime": {"python": ">=3.10", "deps": ["mcp>=1.2.0", "requests>=2.31.0"], "venv": ".venv"},
+  "runtime": {"python": ">=3.10", "deps": ["mcp>=1.2.0", "requests>=2.31.0", "beautifulsoup4>=4.12.0", "keyring>=25.0.0"], "venv": ".venv"},
   "data_policy": "live-only；不存課程 DB；唯一靜態資產 dept_codes.json 為開課單位代碼 snapshot（218 代碼，來源 qrysub unit.json 全樹掃描）",
   "upstream_api": {
     "endpoint": "https://es.nccu.edu.tw/course/zh-TW/:sem={sem}%20[keyword]%20:dp3={code}%20:week={1-7}%20:lan={1|2}%20/",
@@ -33,11 +33,13 @@
     {"name": "search_courses", "args": {"semester": "str", "dept": "單位名或代碼", "keyword": "str=''"},
      "returns": "{semester,dept_code,dept_name,count,courses:[…]}；欄位同 search_all"},
     {"name": "get_syllabus", "args": {"syllabus_url": "courses 回傳的 syllabus_url"},
-     "returns": "教學大綱純文字全文；無大綱回明確提示文字；抓取限 nccu.edu.tw 網域"}
+     "returns": "教學大綱純文字全文；無大綱回明確提示文字；抓取限 nccu.edu.tw 網域"},
+    {"name": "get_course_rating", "args": {"semester": "str", "course_id": "str=''", "teacher": "str=''", "course_name": "str=''"},
+     "returns": "{found, course:{course_id,name,teacher}, rating:{teacher,title,rows:[{year,semester,course_id,course_name,enrolled,responded,response_rate,score,comments:[str,…],comment_url,comment_count}]}}；選用功能，需 NCCU_STUDENT_ID 環境變數 + OS 憑證儲存區密碼（keyring, service=nccu-ldap）；其餘 5 工具皆匿名"}
   ],
   "normalized_fields": "course_id/name/teacher/time/slots(結構化節次)/credits(float)/kind/target/classroom/language/core_ge/note/note_facts(ta_time,exam,priority,restriction,no_add,english_taught,has_ta_session)/matched/remain_url/syllabus_url",
-  "tests": "src/nccu_course_mcp/test_server.py（實打 live ~20 項，含 docstring 非空防回歸 6g）",
+  "tests": "src/nccu_course_mcp/test_server.py（實打 live ~20 項，含 docstring 非空防回歸 6g；get_course_rating 段落無 NCCU_STUDENT_ID 時自動跳過）",
   "docs": {"query_guide": "QUERY_GUIDE.md", "architecture": "architecture.md", "agents": "AGENTS.md"},
   "license": "MIT",
-  "backlog": ["level 學制篩選參數", "priority_dept 伺服器端過濾", "節次→鐘點結構化欄位", "同義詞擴展", "即時餘額抓取"]
+  "known_limitations": ["level 學制篩選參數", "priority_dept 伺服器端過濾", "節次到鐘點結構化欄位", "同義詞擴展", "即時餘額抓取"]
 }

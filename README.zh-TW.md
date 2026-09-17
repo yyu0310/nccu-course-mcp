@@ -20,6 +20,10 @@
   - `dept`：單位名或代碼（例如 `財務管理學系`、`357`、`107`＝整開的經濟學）。
 - `get_syllabus(syllabus_url)`：讀取某門課的教學大綱全文（課程簡介、課程目標、學習成效、
   每週進度）。僅接受 nccu.edu.tw 網域的連結。
+- `get_course_rating(semester, course_id="", teacher="", course_name="")`：
+  某位教師近六學期的教學意見調查評量（依政大規定僅開放近六學期），含分數與每學期
+  學生填寫的文字意見。**選用功能，需要你自己的政大帳密**，見下方說明；其餘工具一律
+  匿名，不需登入。
 
 每門課都回結構化欄位：`slots`（節次清單，衝堂判斷不用解析「三CD78」）、`note_facts`
 （備註抽取：實習課時間／會考日期／優先系／加簽限制／英語授課）、`syllabus_url`。
@@ -71,8 +75,34 @@ python -m venv .venv && ./.venv/bin/pip install -e .
 claude mcp add nccu-course -- ./.venv/bin/nccu-course-mcp
 ```
 
+## 選用功能：查課程評量（`get_course_rating`）
+
+其餘工具一律匿名，不需任何設定。`get_course_rating` 是唯一例外：政大只對登入學生
+開放教師評量歷史，所以這支工具需要你自己的政大帳密。密碼不會離開你的電腦：程式
+登入後把目標課程暫時加進追蹤清單取得評量頁連結，讀完立刻移除，再抓公開的評量頁。
+
+1. 把政大入口網密碼存進作業系統的憑證儲存區（只做一次）。用 `keyring` 這個套件，
+   macOS（Keychain）、Windows（認證管理員）、Linux（Secret Service）都是同一條指令：
+   ```bash
+   python3 -c "import keyring; keyring.set_password('nccu-ldap', '<你的學號>', input())"
+   ```
+2. 在跑這個 server 的地方設定 `NCCU_STUDENT_ID`，例如在 MCP 客戶端設定檔：
+   ```json
+   {
+     "mcpServers": {
+       "nccu-course": {
+         "command": "uvx",
+         "args": ["--from", "git+https://github.com/yyu0310/nccu-course-mcp", "nccu-course-mcp"],
+         "env": { "NCCU_STUDENT_ID": "<你的學號>" }
+       }
+     }
+   }
+   ```
+
+密碼永不落地明文、不進 log。不需要這支工具就跳過以上兩步，不影響其他工具運作。
+
 ## 說明
 
 - 上游伺服器使用舊版 TLS renegotiation，client 開啟 `OP_LEGACY_SERVER_CONNECT` 才連得上。
 - 廣域查詢上游有 500 筆上限，因此一律逐系查詢。
-- 只用政大公開的課程目錄，不碰任何私有系統、不需登入。
+- 只用政大公開的課程目錄，不需登入，唯一例外是上方選用的 `get_course_rating`。

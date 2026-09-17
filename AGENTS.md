@@ -5,9 +5,15 @@ Context for AI assistants working on this repo.
 ## What this is
 
 A local (stdio) MCP server that queries NCCU's course-listing API
-(`es.nccu.edu.tw`, backing qrysub.nccu.edu.tw) and exposes five tools:
+(`es.nccu.edu.tw`, backing qrysub.nccu.edu.tw) and exposes six tools:
 `search_all`, `check_schedule`, `list_departments`, `search_courses`,
-`get_syllabus`. Live-only: no local course database.
+`get_syllabus`, `get_course_rating`. Live-only: no local course database.
+
+`get_course_rating` is the one login-required tool: it needs the caller's own
+NCCU credentials (`NCCU_STUDENT_ID` env var + macOS Keychain password) to
+temporarily add a course to the account's tracking list, since that is the
+only way to obtain the teacher's internal rating-page id. Everything else is
+anonymous, public data.
 
 Design principle: sink model intelligence into deterministic code (structured
 `slots`, `note_facts` mining, conflict checking) so weak models get the same
@@ -18,17 +24,19 @@ docstring by string concatenation (`"""...""" + X`): it silently becomes
 
 ## Layout
 
-- `src/nccu_course_mcp/server.py` — FastMCP entry (`main()`), the five tools, dept resolution.
+- `src/nccu_course_mcp/server.py`: FastMCP entry (`main()`), the six tools, dept resolution.
 - `src/nccu_course_mcp/client.py` — legacy-TLS HTTP session, `search_raw()`, `normalize()`, `fetch_syllabus()`.
+- `src/nccu_course_mcp/rate.py`: login, tracking-list add/read/delete, rating-page fetch and parse. Backs `get_course_rating` only, every other tool ignores it.
 - `src/nccu_course_mcp/dept_codes.json` — department code↔name snapshot (loaded at import).
 - `src/nccu_course_mcp/build_dept_codes.py` — regenerate the snapshot by scanning live.
-- `src/nccu_course_mcp/test_server.py` — functional self-test (hits live API).
+- `src/nccu_course_mcp/test_server.py`: functional self-test (hits live API); the `get_course_rating` section skips itself when `NCCU_STUDENT_ID` is unset.
 
 ## Run / test
 
 ```bash
 python -m venv .venv && ./.venv/bin/pip install -e .
-./.venv/bin/python src/nccu_course_mcp/test_server.py
+./.venv/bin/python src/nccu_course_mcp/test_server.py                             # core tools only
+NCCU_STUDENT_ID=<your id> ./.venv/bin/python src/nccu_course_mcp/test_server.py   # plus rating tool
 ```
 
 ## Gotchas (don't undo these)
@@ -48,6 +56,13 @@ python -m venv .venv && ./.venv/bin/pip install -e .
 - **Same name, two codes**: a department name can map to both an undergrad and a
   graduate code (e.g. 財務管理學系 = 307 and 357). `_resolve_dept` refuses to guess.
 - `fetch_syllabus` is host-restricted to `*.nccu.edu.tw`; keep that check (trust boundary).
+- **`rate.get_trace_all_data` must be called without a semester segment**: the semester-suffixed
+  URL `tracing/{lang}/{sem}/{encstu}/` returns the right record count but every field null, this
+  is server-side behavior, not a bug on our end. The plain `tracing/{lang}/{encstu}/` returns real
+  values and already targets the caller's current tracked semester.
+- **`teaStatUrl` points at a frameset shell, not the data**: it is `statisticAll.jsp-tnum=X`, a
+  page with two empty `<frame>`s. The real table lives in the embedded frame `statistic.jsp-tnum=X`
+  (same URL, one word shorter). `rate.fetch_rating` does a plain string replace before fetching.
 
 ## Updating the department snapshot
 

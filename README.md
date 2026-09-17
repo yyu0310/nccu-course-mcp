@@ -26,6 +26,11 @@ mapping department codes to names (regenerate any time with `build_dept_codes.py
 - `get_syllabus(syllabus_url)`: fetch a course's full syllabus as plain text
   (description, objectives, learning outcomes, weekly schedule). Restricted to
   nccu.edu.tw URLs.
+- `get_course_rating(semester, course_id="", teacher="", course_name="")`:
+  a teacher's teaching-evaluation history for the last six semesters (NCCU
+  policy caps this window), score plus written comments per semester.
+  **Optional, needs your own NCCU login**, see below. Every other tool is
+  anonymous.
 
 Every course comes with structured fields: `slots` (parsed period list, so models
 never hand-parse strings like `三CD78`) and `note_facts` (facts mined from the
@@ -78,10 +83,42 @@ python -m venv .venv && ./.venv/bin/pip install -e .
 claude mcp add nccu-course -- ./.venv/bin/nccu-course-mcp
 ```
 
+## Optional: course ratings (`get_course_rating`)
+
+Every other tool is anonymous and needs nothing set up. `get_course_rating` is
+the one exception: NCCU only exposes a teacher's rating history to logged-in
+students, so this tool needs your own NCCU credentials. It never leaves your
+machine, it logs in, briefly tracks the target course to read its rating-page
+link, untracks it, then fetches the (public) rating page.
+
+1. Save your NCCU portal password to your OS credential store, once. This uses
+   `keyring`, which works the same way on macOS (Keychain), Windows
+   (Credential Manager), and Linux (Secret Service):
+   ```bash
+   python3 -c "import keyring; keyring.set_password('nccu-ldap', '<your student id>', input())"
+   ```
+2. Set `NCCU_STUDENT_ID` wherever you run the server, for example in the MCP
+   client config:
+   ```json
+   {
+     "mcpServers": {
+       "nccu-course": {
+         "command": "uvx",
+         "args": ["--from", "git+https://github.com/yyu0310/nccu-course-mcp", "nccu-course-mcp"],
+         "env": { "NCCU_STUDENT_ID": "<your student id>" }
+       }
+     }
+   }
+   ```
+
+Your password never touches disk in plaintext and is never logged. Skip both
+steps if you don't need this tool, everything else works unaffected.
+
 ## Notes
 
 - The upstream server uses legacy TLS renegotiation; the client enables
   `OP_LEGACY_SERVER_CONNECT` to connect.
 - Broad queries are capped at 500 rows upstream, so queries are always scoped per
   department.
-- Uses only NCCU's public course catalog. It touches no private system and no login.
+- Uses only NCCU's public course catalog and requires no login, except for the
+  optional `get_course_rating` tool described above.
