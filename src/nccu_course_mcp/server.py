@@ -15,8 +15,10 @@ from pathlib import Path
 from mcp.server.fastmcp import FastMCP
 try:  # 直跑 server.py 或當 package import 都要能載
     from client import search_raw, query_raw, normalize, fetch_syllabus, parse_slots
+    import rate
 except ImportError:
     from nccu_course_mcp.client import search_raw, query_raw, normalize, fetch_syllabus, parse_slots
+    from nccu_course_mcp import rate
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
 
@@ -267,6 +269,52 @@ def get_syllabus(syllabus_url: str) -> str:
     內容含課程簡介、課程目標與學習成效、每週進度、評分方式等，可據以判斷課程性質。
     """
     return fetch_syllabus(syllabus_url)
+
+
+@mcp.tool()
+def get_course_rating(semester: str, course_id: str = "", teacher: str = "",
+                      course_name: str = "") -> dict:
+    """查一門課授課教師的歷年教學意見調查（評量）統計，需要 NCCU 帳密（選用功能）。
+
+    定位課程用 course_id 最準；沒有的話給 teacher（教師名）＋course_name（課名片段）。
+    找到課程後用你的政大帳密登入、暫時把該課加進追蹤清單取得評量頁網址、讀取後立刻移除
+    追蹤（不留痕跡），最後回傳該教師近六學期的教學意見調查表（依校規僅開放近六學期）。
+
+    前置需求：
+      1. 環境變數 NCCU_STUDENT_ID（你的學號）。
+      2. macOS Keychain 存密碼：security add-generic-password -s nccu-ldap -a <學號> -w
+
+    參數：semester 如 '1151'（學期，見 search_all 說明）；course_id 課號全碼最精準；
+    或給 teacher＋course_name。
+    回傳：{found, course:{course_id,name,teacher}, rating:{teacher,title,rows:[...]}}；
+    找不到課程回 {found:False, reason}；該教師無評量歷史回 {found:False, course, reason}。
+    rating.rows 每筆含 year/semester/course_id/course_name/enrolled/responded/
+    response_rate/score/comments（該學期學生填寫的文字意見清單，無則空陣列）/
+    comment_url/comment_count（依政大規定，總分需 60 分以上才會有值）。
+    """
+    kw = course_id or teacher or course_name
+    if not kw:
+        raise ValueError("需給 course_id 或 teacher 或 course_name 其一")
+    rows = [normalize(c) for c in query_raw(semester, keyword=kw)]
+    if course_id:
+        rows = [r for r in rows if r["course_id"].startswith(course_id[:9])]
+    elif course_name:
+        rows = [r for r in rows if course_name in r["name"]]
+    if not rows:
+        return {"found": False, "reason": f"查無課程：{kw}"}
+    course = rows[0]
+
+    sid = rate.get_student_id()
+    encstu = rate.login(sid, rate.get_password(sid))
+    tea_stat_url = rate.resolve_tea_stat_url(encstu, course)
+    if not tea_stat_url:
+        return {"found": False, "course": course,
+                "reason": "該教師無評量資料（首次開課無歷史紀錄，或校規未開放）"}
+
+    rating = rate.fetch_rating(tea_stat_url)
+    return {"found": True, "course": {"course_id": course["course_id"],
+            "name": course["name"], "teacher": course["teacher"]},
+            "rating": rating}
 
 
 def main():
