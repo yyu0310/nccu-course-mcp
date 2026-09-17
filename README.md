@@ -4,7 +4,7 @@ An MCP server for querying NCCU (National Chengchi University) course listings
 (qrysub.nccu.edu.tw) programmatically, so an AI assistant or a student can search
 courses in plain language instead of fighting the web UI.
 
-Course data is fetched **live** from the public course API on every query; there is
+Course data is fetched **live** from the public course API on every query. There is
 no local course database. The only shipped data file is `dept_codes.json`, a snapshot
 mapping department codes to names (regenerate any time with `build_dept_codes.py`).
 
@@ -12,14 +12,14 @@ mapping department codes to names (regenerate any time with `build_dept_codes.py
 
 - `search_all(semester, keyword="", week="", language="", dept="", kind="", core_ge="", teacher="")`:
   school-wide flexible search. The keyword is matched server-side against course
-  names, teachers, notes, and full course ids; narrow further by weekday, teaching
+  names, teachers, notes, and full course ids. Narrow further by weekday, teaching
   language, requirement kind, core-GE flag, or exact teacher. Use this when you
   don't know which unit offers a course.
 - `check_schedule(semester, course_ids, extra_times=[])`: deterministic conflict
-  check. Give full course ids; returns conflicts + a weekly grid. TA session times
+  check. Give full course ids, get conflicts plus a weekly grid. TA session times
   mined from course notes are included automatically.
 - `list_departments(query="")`: list offering-unit codes (departments, school-wide
-  subjects, general education, PE, credit programs); filter by a name substring.
+  subjects, general education, PE, credit programs). Filter by a name substring.
 - `search_courses(semester, dept, keyword="")`: courses for one offering unit.
   - `semester`: academic-year + term, e.g. `1151` = AY115 term 1.
   - `dept`: unit name or code (e.g. `財務管理學系`, `357`, or `107` = school-wide Economics).
@@ -116,7 +116,7 @@ steps if you don't need this tool, everything else works unaffected.
 
 ## Notes
 
-- The upstream server uses legacy TLS renegotiation; the client enables
+- The upstream server uses legacy TLS renegotiation. The client enables
   `OP_LEGACY_SERVER_CONNECT` to connect.
 - Broad queries are capped at 500 rows upstream, so queries are always scoped per
   department.
