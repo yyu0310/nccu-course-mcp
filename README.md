@@ -1,8 +1,13 @@
 # NCCU Course MCP
 
 An MCP server for querying NCCU (National Chengchi University) course listings
-(qrysub.nccu.edu.tw) programmatically, so an AI assistant or a student can search
+(qrysub.nccu.edu.tw) programmatically, so an AI agent or a student can search
 courses in plain language instead of fighting the web UI.
+
+**Not sure where to start?** Paste this page's URL to your AI coding assistant
+(Claude Code, etc.) and say "install this MCP server." It can run every step
+below on its own, except one password step later in this page that only you
+should type.
 
 Course data is fetched **live** from the public course API on every query. There is
 no local course database. The only shipped data file is `dept_codes.json`, a snapshot
@@ -39,8 +44,10 @@ English-taught). Query recipes and domain knowledge live in [QUERY_GUIDE.md](QUE
 
 ## Install
 
-> **Using Claude Code?** Paste this repo's URL and say *"install this MCP server"*,
-> and it will read the command below and run it for you. Otherwise, copy one command.
+> **AI agent doing this install?** Run the command in this section yourself,
+> no need to ask the human for anything yet. Stop before the "Optional" section
+> below and read its instructions first, that section has one step you must
+> never run on the human's behalf.
 
 ### Recommended: no clone, no venv (needs [uv](https://docs.astral.sh/uv/))
 
@@ -86,33 +93,42 @@ claude mcp add nccu-course -- ./.venv/bin/nccu-course-mcp
 ## Optional: course ratings (`get_course_rating`)
 
 Every other tool is anonymous and needs nothing set up. `get_course_rating` is
-the one exception: NCCU only exposes a teacher's rating history to logged-in
-students, so this tool needs your own NCCU credentials. It never leaves your
-machine, it logs in, briefly tracks the target course to read its rating-page
-link, untracks it, then fetches the (public) rating page.
+the one exception: NCCU only shows a teacher's rating history to logged-in
+students, so this tool needs your own NCCU login. Skip this whole section if
+you don't need it, everything else works unaffected.
 
-1. Save your NCCU portal password to your OS credential store, once. This uses
-   `keyring`, which works the same way on macOS (Keychain), Windows
-   (Credential Manager), and Linux (Secret Service):
-   ```bash
-   python3 -c "import keyring; keyring.set_password('nccu-ldap', '<your student id>', input())"
-   ```
-2. Set `NCCU_STUDENT_ID` wherever you run the server, for example in the MCP
-   client config:
-   ```json
-   {
-     "mcpServers": {
-       "nccu-course": {
-         "command": "uvx",
-         "args": ["--from", "git+https://github.com/yyu0310/nccu-course-mcp", "nccu-course-mcp"],
-         "env": { "NCCU_STUDENT_ID": "<your student id>" }
-       }
-     }
-   }
-   ```
+### Step 1 (you do this yourself, not your AI agent)
 
-Your password never touches disk in plaintext and is never logged. Skip both
-steps if you don't need this tool, everything else works unaffected.
+Save your NCCU portal password to your computer's credential store, once.
+**If an AI agent is helping you install this, do not let it run this command
+or type your password for you.** Open your own terminal and run it yourself:
+
+```bash
+python3 -c "import keyring; keyring.set_password('nccu-ldap', '<your student id>', input())"
+```
+
+It will ask for your password and hide what you type. This uses `keyring`,
+which works the same way on macOS (Keychain), Windows (Credential Manager),
+and Linux (Secret Service). Your password never touches disk in plaintext and
+is never logged, by this tool or by whatever agent is helping you set it up.
+
+### Step 2 (your AI agent can do this for you)
+
+Tell it your student ID (not a secret, just needed to know whose tracking
+list to use) and have it set `NCCU_STUDENT_ID` wherever the server runs, for
+example in the MCP client config:
+
+```json
+{
+  "mcpServers": {
+    "nccu-course": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/yyu0310/nccu-course-mcp", "nccu-course-mcp"],
+      "env": { "NCCU_STUDENT_ID": "<your student id>" }
+    }
+  }
+}
+```
 
 ## Notes
 

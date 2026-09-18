@@ -1,7 +1,11 @@
 # NCCU Course MCP
 
-政大選課查詢（qrysub.nccu.edu.tw）的 MCP server，讓 AI 助理或學生用自然語言查課，
+政大選課查詢（qrysub.nccu.edu.tw）的 MCP server，讓 AI Agent 或學生用自然語言查課，
 不用再跟難用的網頁介面搏鬥。
+
+**不知道從哪開始？** 把這頁的網址貼給你的 AI 寫程式助理（Claude Code 等）、說「幫我
+安裝這個 MCP server」，它自己就能跑完下面幾乎所有步驟，只有一個密碼相關的步驟要你
+自己動手。
 
 課程資料每次查詢都**即時**打政大公開課程 API，不存本地課程資料庫。唯一附帶的資料檔是
 `dept_codes.json`（系所代碼對中文系名的 snapshot，隨時可用 `build_dept_codes.py` 重新產生）。
@@ -31,8 +35,8 @@
 
 ## 安裝
 
-> **在用 Claude Code？** 把這個 repo 的網址貼給它、說「幫我安裝這個 MCP server」，
-> 它會讀下面的指令並幫你執行。否則自己複製一行指令即可。
+> **AI Agent 在幫忙裝這個？** 這節的指令直接自己跑，不用先問人類。跑到下面「選用
+> 功能」那節之前先停下來讀一遍說明，裡面有一步絕對不能代替人類做。
 
 ### 推薦：免 clone、免建 venv（需要 [uv](https://docs.astral.sh/uv/)）
 
@@ -75,31 +79,41 @@ python -m venv .venv && ./.venv/bin/pip install -e .
 claude mcp add nccu-course -- ./.venv/bin/nccu-course-mcp
 ```
 
-## 選用功能：查課程評量（`get_course_rating`）
+## 選用功能：自動化查課程評價（`get_course_rating`）
 
 其餘工具一律匿名，不需任何設定。`get_course_rating` 是唯一例外：政大只對登入學生
-開放教師評量歷史，所以這支工具需要你自己的政大帳密。密碼不會離開你的電腦：程式
-登入後把目標課程暫時加進追蹤清單取得評量頁連結，讀完立刻移除，再抓公開的評量頁。
+開放教師評量歷史，所以這支工具需要你自己的政大帳密。不需要這支工具就跳過整節，
+不影響其他工具運作。
 
-1. 把政大入口網密碼存進作業系統的憑證儲存區（只做一次）。用 `keyring` 這個套件，
-   macOS（Keychain）、Windows（認證管理員）、Linux（Secret Service）都是同一條指令：
-   ```bash
-   python3 -c "import keyring; keyring.set_password('nccu-ldap', '<你的學號>', input())"
-   ```
-2. 在跑這個 server 的地方設定 `NCCU_STUDENT_ID`，例如在 MCP 客戶端設定檔：
-   ```json
-   {
-     "mcpServers": {
-       "nccu-course": {
-         "command": "uvx",
-         "args": ["--from", "git+https://github.com/yyu0310/nccu-course-mcp", "nccu-course-mcp"],
-         "env": { "NCCU_STUDENT_ID": "<你的學號>" }
-       }
-     }
-   }
-   ```
+### 第一步（你自己做，不要讓 AI Agent 代勞）
 
-密碼永不落地明文、不進 log。不需要這支工具就跳過以上兩步，不影響其他工具運作。
+把政大入口網密碼存進電腦的憑證儲存區，只做一次。**如果是 AI Agent 在幫你裝這個，
+不要讓它跑這條指令、也不要讓它幫你輸入密碼**，自己開一個終端機親手跑：
+
+```bash
+python3 -c "import keyring; keyring.set_password('nccu-ldap', '<你的學號>', input())"
+```
+
+它會問你密碼，輸入時畫面不顯示字元。這用的是 `keyring` 這個套件，macOS
+（Keychain）、Windows（認證管理員）、Linux（Secret Service）都是同一條指令。密碼
+永不落地明文、不進 log，不管是這支工具還是幫你裝機的 AI Agent 都看不到。
+
+### 第二步（AI Agent 可以幫你做）
+
+跟它說你的學號（不是機密，只是要知道追蹤清單掛在誰名下），讓它在跑這個 server 的
+地方設定 `NCCU_STUDENT_ID`，例如 MCP 客戶端設定檔：
+
+```json
+{
+  "mcpServers": {
+    "nccu-course": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/yyu0310/nccu-course-mcp", "nccu-course-mcp"],
+      "env": { "NCCU_STUDENT_ID": "<你的學號>" }
+    }
+  }
+}
+```
 
 ## 說明
 
