@@ -34,7 +34,7 @@ the hood.
 | Department code lookup | Lists every offering-unit code (departments, school-wide subjects, general ed, PE, credit programs), filterable by name | You don't know a department's code or exact name | `list_departments` |
 | Courses by department | Course list for one offering unit in one semester | You already know which department to search | `search_courses` |
 | Full syllabus | Description, objectives, learning outcomes, weekly schedule | Deciding whether to take a course | `get_syllabus` |
-| Teaching ratings (optional) | A teacher's evaluation scores and written comments for the last six semesters (NCCU policy caps this window) | Wondering if a teacher is any good, **needs your own NCCU login**, see below | `get_course_rating` |
+| Teaching ratings (optional) | A teacher's evaluation scores and written comments for the last six semesters (NCCU policy caps this window) | Checking a teacher's evaluation history, **needs your own NCCU login**, password privacy explained below | `get_course_rating` |
 
 Every other tool is anonymous and needs no login, the ratings tool is the one exception.
 
