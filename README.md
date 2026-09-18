@@ -11,7 +11,9 @@ Codex, etc.):
 > https://github.com/yyu0310/nccu-course-mcp
 
 It can run every step below on its own, except one password step later in
-this page that only you should type.
+this page that only you should type. Works with Claude Code and the Claude
+Desktop app (both run on your own machine). The claude.ai web app and mobile
+app can't run local MCP servers like this one, so they're not an option here.
 
 Course data is fetched **live** from the public course API on every query. There is
 no local course database. The only shipped data file is `dept_codes.json`, a snapshot
@@ -19,27 +21,22 @@ mapping department codes to names (regenerate any time with `build_dept_codes.py
 
 ## Tools
 
-- `search_all(semester, keyword="", week="", language="", dept="", kind="", core_ge="", teacher="")`:
-  school-wide flexible search. The keyword is matched server-side against course
-  names, teachers, notes, and full course ids. Narrow further by weekday, teaching
-  language, requirement kind, core-GE flag, or exact teacher. Use this when you
-  don't know which unit offers a course.
-- `check_schedule(semester, course_ids, extra_times=[])`: deterministic conflict
-  check. Give full course ids, get conflicts plus a weekly grid. TA session times
-  mined from course notes are included automatically.
-- `list_departments(query="")`: list offering-unit codes (departments, school-wide
-  subjects, general education, PE, credit programs). Filter by a name substring.
-- `search_courses(semester, dept, keyword="")`: courses for one offering unit.
-  - `semester`: academic-year + term, e.g. `1151` = AY115 term 1.
-  - `dept`: unit name or code (e.g. `財務管理學系`, `357`, or `107` = school-wide Economics).
-- `get_syllabus(syllabus_url)`: fetch a course's full syllabus as plain text
-  (description, objectives, learning outcomes, weekly schedule). Restricted to
-  nccu.edu.tw URLs.
-- `get_course_rating(semester, course_id="", teacher="", course_name="")`:
-  a teacher's teaching-evaluation history for the last six semesters (NCCU
-  policy caps this window), score plus written comments per semester.
-  **Optional, needs your own NCCU login**, see below. Every other tool is
-  anonymous.
+You don't need to remember any tool name or parameter, just tell your AI agent
+what you want (e.g. "find me courses offered by the Finance department" or
+"does this course clash with my Wednesday afternoon class"), and it picks the
+right tool on its own. This table is for anyone curious what happens under
+the hood.
+
+| What it does | Details | When you'd reach for it | Tool name |
+|---|---|---|---|
+| School-wide flexible search | Keyword search across course names, teachers, notes, and course ids, narrowable by weekday, language, requirement kind, core-GE, or exact teacher | You don't know which department offers a course | `search_all` |
+| Schedule conflict check | Give a list of course ids, get back conflicts plus a weekly grid. TA session times are folded in automatically | Checking whether your picked courses collide | `check_schedule` |
+| Department code lookup | Lists every offering-unit code (departments, school-wide subjects, general ed, PE, credit programs), filterable by name | You don't know a department's code or exact name | `list_departments` |
+| Courses by department | Course list for one offering unit in one semester | You already know which department to search | `search_courses` |
+| Full syllabus | Description, objectives, learning outcomes, weekly schedule | Deciding whether to take a course | `get_syllabus` |
+| Teaching ratings (optional) | A teacher's evaluation scores and written comments for the last six semesters (NCCU policy caps this window) | Wondering if a teacher is any good, **needs your own NCCU login**, see below | `get_course_rating` |
+
+Every other tool is anonymous and needs no login, the ratings tool is the one exception.
 
 Every course comes with structured fields: `slots` (parsed period list, so models
 never hand-parse strings like `三CD78`) and `note_facts` (facts mined from the
@@ -142,3 +139,8 @@ example in the MCP client config:
   department.
 - Uses only NCCU's public course catalog and requires no login, except for the
   optional `get_course_rating` tool described above.
+
+## Further reading
+
+New to Claude Code itself, not just this tool? [claude-code-security-starter](https://github.com/yyu0310/claude-code-security-starter)
+is a starter pack of CLAUDE.md rules and hooks that block credential leaks before they happen, a good first project to install.
