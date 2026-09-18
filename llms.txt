@@ -1,0 +1,16 @@
+# NCCU Course MCP
+
+> MCP server for querying National Chengchi University (NCCU) course listings live, so an AI agent or a student can search courses, check schedule conflicts, read syllabi, and optionally look up teaching-evaluation ratings, all in plain language instead of the school's web UI.
+
+Six tools, five of them anonymous and needing no setup: `search_all`, `check_schedule`, `list_departments`, `search_courses`, `get_syllabus`. The sixth, `get_course_rating`, is optional and needs the caller's own NCCU login. Course data is fetched live from NCCU's public course API on every call, there is no local course database. Design principle: sink model intelligence into deterministic code (structured `slots`, `note_facts` mining, conflict checking) so weak models answer as well as strong ones.
+
+## Docs
+
+- [README.md](README.md): what this is, the six tools, install (including an AI-driven install path), the optional rating tool's setup
+- [README.zh-TW.md](README.zh-TW.md): Traditional Chinese version of the above
+- [QUERY_GUIDE.md](QUERY_GUIDE.md): query recipes and NCCU course-selection domain knowledge (semester codes, department code scheme, common pitfalls)
+- [AGENTS.md](AGENTS.md): context for AI assistants working on this repo's code, file layout, and known gotchas
+
+## Optional
+
+- [LICENSE](LICENSE): MIT
