@@ -3,9 +3,12 @@
 政大選課查詢（qrysub.nccu.edu.tw）的 MCP server，讓 AI Agent 或學生用自然語言查課，
 不用再跟難用的網頁介面搏鬥。
 
-**不知道從哪開始？** 把這頁的網址貼給你的 AI Coding Agent（如 Claude Code、Codex
-等），說「幫我安裝這個 MCP server」，它自己就能跑完下面幾乎所有步驟，只有一個密碼
-相關的步驟要你自己動手。
+**不知道從哪開始？** 把這段貼給你的 AI Coding Agent（如 Claude Code、Codex 等）：
+
+> 幫我安裝這個 MCP server
+> https://github.com/yyu0310/nccu-course-mcp
+
+它自己就能跑完下面幾乎所有步驟，只有一個密碼相關的步驟要你自己動手。
 
 課程資料每次查詢都**即時**打政大公開課程 API，不存本地課程資料庫。唯一附帶的資料檔是
 `dept_codes.json`（系所代碼對中文系名的 snapshot，隨時可用 `build_dept_codes.py` 重新產生）。

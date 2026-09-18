@@ -4,10 +4,14 @@ An MCP server for querying NCCU (National Chengchi University) course listings
 (qrysub.nccu.edu.tw) programmatically, so an AI agent or a student can search
 courses in plain language instead of fighting the web UI.
 
-**Not sure where to start?** Paste this page's URL to your AI coding agent
-(Claude Code, Codex, etc.) and say "install this MCP server." It can run
-every step below on its own, except one password step later in this page
-that only you should type.
+**Not sure where to start?** Paste this to your AI coding agent (Claude Code,
+Codex, etc.):
+
+> Install this MCP server
+> https://github.com/yyu0310/nccu-course-mcp
+
+It can run every step below on its own, except one password step later in
+this page that only you should type.
 
 Course data is fetched **live** from the public course API on every query. There is
 no local course database. The only shipped data file is `dept_codes.json`, a snapshot
