@@ -56,6 +56,9 @@ NCCU_STUDENT_ID=<your id> ./.venv/bin/python src/nccu_course_mcp/test_server.py 
 - **Same name, two codes**: a department name can map to both an undergrad and a
   graduate code (e.g. 財務管理學系 = 307 and 357). `_resolve_dept` refuses to guess.
 - `fetch_syllabus` is host-restricted to `*.nccu.edu.tw`; keep that check (trust boundary).
+- **Keep `mcp<2` pinned in `pyproject.toml`**: mcp 2.x renamed `FastMCP` to `MCPServer` and moved the
+  import, so `from mcp.server.fastmcp import FastMCP` fails at startup. A fresh `uvx` install resolves the
+  newest mcp and the server dies with "Connection closed". Migrate to the 2.x API before lifting the pin.
 - **`rate.get_trace_all_data` must be called without a semester segment**: the semester-suffixed
   URL `tracing/{lang}/{sem}/{encstu}/` returns the right record count but every field null, this
   is server-side behavior, not a bug on our end. The plain `tracing/{lang}/{encstu}/` returns real
