@@ -6,3 +6,4 @@ build/
 *.egg-info/
 .pytest_cache/
 工作日誌.md
+uv.lock
