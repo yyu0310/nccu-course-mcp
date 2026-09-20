@@ -35,6 +35,7 @@
 - `src/nccu_course_mcp/`
   - `client.py` — legacy-SSL session ＋ `search_raw()`（打 API）＋ `normalize()`（欄位正規化）
   - `server.py` — FastMCP，兩工具 `list_departments` / `search_courses`；`_resolve_dept`/`_level` 系名解析
+  - `rate.py`：登入、追蹤清單、評價頁與文字意見解析，只供 `get_course_rating` 使用（資料流見下方「評量工具資料流」）
   - `build_dept_codes.py` — 掃 live 重建 `dept_codes.json`（含系名字典種子）
   - `test_server.py` — 功能自測（實打 live）
 
@@ -60,6 +61,24 @@
 - 單位樹靜態檔 `qrysub.nccu.edu.tw/assets/api/unit.json`＝dp1/dp2/dp3 權威來源。
 
 > 註：course「更多」彈窗的欄位多數已在 search API 內（language/pay/core/far/tranTpe…），唯教學大綱需另抓 `teaSchmUrl`。餘額(`remain_url`)、選課設定(`subSetUrl`)、教師專長(`teaExpUrl`) 亦為另抓連結，暫未展開。
+
+## 評量工具資料流（`get_course_rating` / `rate.py`，2026-09-20 補）
+
+唯一需要登入的工具。為什麼要登入：教學評價頁的網址（`teaStatUrl`，內含教師代號 tnum）只出現在登入後的「追蹤清單」回傳裡，查不到公開來源；評價頁本身免登入。
+
+流程（`server.get_course_rating` 依序呼叫 `rate.py`）：
+
+1. 取憑證：學號讀環境變數 `NCCU_STUDENT_ID`，密碼從系統 keyring 讀（service `nccu-ldap`），兩者都不落地、log 一律遮罩。
+2. `login`：POST `es.nccu.edu.tw/person/{編碼後的 學號!!)密碼}/` → 回傳 `encstu`（登入 token）。`/`、`\` 先換成全形，模擬前端 checkLdapParam，這不是加密。失敗時 `encstu=ERROR`。
+3. `resolve_tea_stat_url`：
+   - 加入追蹤：POST `tracing/C/{lang}/1{課號}-{encstu}/`
+   - 讀追蹤清單：POST `tracing/{lang}/{encstu}/`，**不可帶學期段**（帶了會回同筆數但欄位全 null，見 AGENTS.md Gotchas），找到該課那筆的 `teaStatUrl`
+   - 移出追蹤：POST `tracing/D/{lang}/{課號}-{encstu}/`，放在 `finally`，避免弄髒使用者真實的追蹤清單（清理失敗只 warning、不中斷）
+   - 該課沒有評價紀錄（例如教師第一次開這門課）時回 None，工具回報查無資料
+4. `fetch_rating`：`teaStatUrl` 指向 `statisticAll.jsp`（只是 frameset 外殼），字串替換成 `statistic.jsp` 再 GET（免登入），`_parse_statistic` 解 9 欄評價表。
+5. `fetch_comments`：每列若有文字意見連結（相對路徑，先 urljoin 成完整網址）再 GET 一次，取回學生意見；`with_comments=False` 可跳過、只回分數。
+
+信任邊界：`fetch_rating` 只接受 `*.nccu.edu.tw` 網址。
 
 ## 資料來源
 
