@@ -30,11 +30,11 @@
 
 ## 檔案結構
 
-- `dept_codes.json` — 開課單位代碼 snapshot（2026-07-17 全樹重掃，218 個代碼），server 載入用
-- `requirements.txt` — mcp、requests
+- `pyproject.toml`：套件與依賴（`mcp>=1.2.0,<2`、`requests`、`beautifulsoup4`、`keyring`），入口指令 `nccu-course-mcp`；`mcp<2` 的原因見 AGENTS.md Gotchas
 - `src/nccu_course_mcp/`
   - `client.py` — legacy-SSL session ＋ `search_raw()`（打 API）＋ `normalize()`（欄位正規化）
-  - `server.py` — FastMCP，兩工具 `list_departments` / `search_courses`；`_resolve_dept`/`_level` 系名解析
+  - `dept_codes.json`：開課單位代碼 snapshot（2026-07-17 全樹重掃，218 個代碼），server 載入用
+  - `server.py`：FastMCP 入口，六個工具 `search_all` / `check_schedule` / `list_departments` / `search_courses` / `get_syllabus` / `get_course_rating`；`_resolve_dept`/`_level` 系名解析
   - `rate.py`：登入、追蹤清單、評價頁與文字意見解析，只供 `get_course_rating` 使用（資料流見下方「評量工具資料流」）
   - `build_dept_codes.py` — 掃 live 重建 `dept_codes.json`（含系名字典種子）
   - `test_server.py` — 功能自測（實打 live）
