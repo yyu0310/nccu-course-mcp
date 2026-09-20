@@ -37,13 +37,13 @@ def get_password(student_id: str) -> str:
     """Read the NCCU portal password from the OS credential store via `keyring`
     (service=nccu-ldap, account=student_id). `keyring` picks the right backend on its own:
     macOS Keychain, Windows Credential Manager, or Linux Secret Service.
-    Set it once with: python3 -c "import keyring; keyring.set_password('nccu-ldap', '<id>', input())"
+    Set it once with: uv run --with keyring python -c "import keyring; keyring.set_password('nccu-ldap', '<id>', input())"
     """
     import keyring
     pw = keyring.get_password("nccu-ldap", student_id)
     if not pw:
         raise RuntimeError(
-            "No credential store entry. Set it with: python3 -c \"import keyring; "
+            "No credential store entry. Set it with: uv run --with keyring python -c \"import keyring; "
             f"keyring.set_password('nccu-ldap', '{student_id}', input())\""
         )
     return pw

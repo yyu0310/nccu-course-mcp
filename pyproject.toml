@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nccu-course-mcp"
-version = "0.2.1"
+version = "0.2.2"
 description = "MCP server for querying NCCU course listings (qrysub.nccu.edu.tw)"
 readme = "README.md"
 requires-python = ">=3.10"
