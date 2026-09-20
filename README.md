@@ -63,6 +63,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 source "$HOME/.local/bin/env"
 ```
 
+On Windows (PowerShell), install uv with the command below, then open a new
+PowerShell window so `uvx` is on PATH:
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
 **Step 1: register the server.**
 
 ```bash
@@ -126,9 +133,9 @@ uv run --with keyring python -c "import keyring; keyring.set_password('nccu-ldap
 needs installing first. It needs the `uv` from the Install section.)
 
 It will ask for your password and hide what you type. This uses `keyring`,
-which is verified on macOS (Keychain). Windows (Credential Manager) and
+which is verified on macOS (Keychain) and Windows 11 (Credential Manager).
 Linux (Secret Service) should work the same way in theory, but I haven't
-tested them. Your password never touches disk in plaintext and
+tested it. Your password never touches disk in plaintext and
 is never logged, by this tool or by whatever agent is helping you set it up.
 
 ### Step 2 (your AI agent can do this for you)

@@ -53,6 +53,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 source "$HOME/.local/bin/env"
 ```
 
+Windows（PowerShell）改用下面這條裝 uv，裝完另開一個新的 PowerShell 視窗，
+`uvx` 才會在 PATH 裡：
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
 **步驟 1：註冊 server。**
 
 ```bash
@@ -113,7 +120,7 @@ uv run --with keyring python -c "import keyring; keyring.set_password('nccu-ldap
 安裝章節裡的 `uv`。）
 
 它會問你密碼，輸入時畫面不顯示字元。這用的是 `keyring` 這個套件，macOS
-（Keychain）已驗證可用，Windows（認證管理員）、Linux（Secret Service）理論上
+（Keychain）與 Windows 11（認證管理員）已驗證可用，Linux（Secret Service）理論上
 是同一條指令，但我沒實測過。密碼
 永不落地明文、不進 log，不管是這支工具還是幫你裝機的 AI Agent 都看不到。
 
