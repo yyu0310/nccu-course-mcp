@@ -52,13 +52,27 @@ English-taught). Query recipes and domain knowledge live in [QUERY_GUIDE.md](QUE
 
 ### Recommended: no clone, no venv (needs [uv](https://docs.astral.sh/uv/))
 
-Runs straight from GitHub for Claude Code:
+Runs straight from GitHub for Claude Code.
+
+**Step 0: make sure `uvx` exists.** Run `uvx --version`. If the command is not
+found, install uv once, then load it into the current shell (the installer puts
+it in `~/.local/bin`, which is not on PATH yet):
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source "$HOME/.local/bin/env"
+```
+
+**Step 1: register the server.**
 
 ```bash
 claude mcp add nccu-course -- uvx --from git+https://github.com/yyu0310/nccu-course-mcp nccu-course-mcp
 ```
 
-Don't have `uv`? Install it once: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+The first `claude mcp list` health check downloads and builds the package, so
+it can take 10 to 60 seconds. If it shows "Failed to connect" and your editor
+or GUI app launched Claude Code without the new PATH, re-register with the full
+path: `claude mcp add nccu-course -- ~/.local/bin/uvx --from git+https://github.com/yyu0310/nccu-course-mcp nccu-course-mcp`.
 
 ### No-uv fallback: pip only
 
@@ -105,12 +119,16 @@ Save your NCCU portal password to your computer's credential store, once.
 or type your password for you.** Open your own terminal and run it yourself:
 
 ```bash
-python3 -c "import keyring; keyring.set_password('nccu-ldap', '<your student id>', input())"
+uv run --with keyring python -c "import keyring; keyring.set_password('nccu-ldap', '<your student id>', input())"
 ```
 
+(`uv run --with keyring` fetches `keyring` for this one command, so nothing
+needs installing first. It needs the `uv` from the Install section.)
+
 It will ask for your password and hide what you type. This uses `keyring`,
-which works the same way on macOS (Keychain), Windows (Credential Manager),
-and Linux (Secret Service). Your password never touches disk in plaintext and
+which is verified on macOS (Keychain). Windows (Credential Manager) and
+Linux (Secret Service) should work the same way in theory, but I haven't
+tested them. Your password never touches disk in plaintext and
 is never logged, by this tool or by whatever agent is helping you set it up.
 
 ### Step 2 (your AI agent can do this for you)

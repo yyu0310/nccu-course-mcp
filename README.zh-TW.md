@@ -43,13 +43,25 @@
 
 ### 推薦：免 clone、免建 venv（需要 [uv](https://docs.astral.sh/uv/)）
 
-直接從 GitHub 跑，給 Claude Code：
+直接從 GitHub 跑，給 Claude Code。
+
+**步驟 0：確認有 `uvx`。** 執行 `uvx --version`，找不到指令就裝一次 uv，再載入
+目前的 shell（安裝程式會放在 `~/.local/bin`，那個資料夾一開始不在 PATH 裡）：
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source "$HOME/.local/bin/env"
+```
+
+**步驟 1：註冊 server。**
 
 ```bash
 claude mcp add nccu-course -- uvx --from git+https://github.com/yyu0310/nccu-course-mcp nccu-course-mcp
 ```
 
-沒有 `uv`？裝一次即可：`curl -LsSf https://astral.sh/uv/install.sh | sh`
+第一次跑 `claude mcp list` 健康檢查要下載並建置套件，需要 10 到 60 秒。如果顯示
+「Failed to connect」，而你的編輯器或桌面 App 啟動 Claude Code 時沒吃到新的 PATH，
+改用完整路徑重新註冊：`claude mcp add nccu-course -- ~/.local/bin/uvx --from git+https://github.com/yyu0310/nccu-course-mcp nccu-course-mcp`。
 
 ### 無 uv 備援：只用 pip
 
@@ -94,11 +106,15 @@ claude mcp add nccu-course -- ./.venv/bin/nccu-course-mcp
 不要讓它跑這條指令、也不要讓它幫你輸入密碼**，自己開一個終端機親手跑：
 
 ```bash
-python3 -c "import keyring; keyring.set_password('nccu-ldap', '<你的學號>', input())"
+uv run --with keyring python -c "import keyring; keyring.set_password('nccu-ldap', '<你的學號>', input())"
 ```
 
+（`uv run --with keyring` 會臨時抓 `keyring` 給這一條指令用，不用事先安裝。需要
+安裝章節裡的 `uv`。）
+
 它會問你密碼，輸入時畫面不顯示字元。這用的是 `keyring` 這個套件，macOS
-（Keychain）、Windows（認證管理員）、Linux（Secret Service）都是同一條指令。密碼
+（Keychain）已驗證可用，Windows（認證管理員）、Linux（Secret Service）理論上
+是同一條指令，但我沒實測過。密碼
 永不落地明文、不進 log，不管是這支工具還是幫你裝機的 AI Agent 都看不到。
 
 ### 第二步（AI Agent 可以幫你做）
